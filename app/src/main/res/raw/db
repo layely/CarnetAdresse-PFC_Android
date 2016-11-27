@@ -1,0 +1,51 @@
+CREATE TABLE Etudiant (
+	ineEtu 			TEXT PRIMARY KEY NOT NULL,
+	nomEtu 			TEXT NOT NULL,
+	prenomEtu 		TEXT NOT NULL,
+    sexeEtu         CHAR NOT NULL,
+    dateNaisEtu     TEXT NOT NULL,
+	mobile1Etu 		INT NOT NULL,
+	mobile2Etu		INT,
+	emailEtu 		TEXT NOT NULL,
+	adresseEtu		TEXT NOT NULL,
+	filiereEtu		TEXT NOT NULL,
+	promoEtu		TEXT NOT NULL,
+	specialiteEtu	TEXT,
+	syncEtu 		INT NOT NULL,
+	modifSyncEtu 	INT NOT NULL
+);
+
+CREATE TABLE Filiere (
+	libeleFil 		TEXT PRIMARY KEY NOT NULL,
+	specialitesFil 	TEXT
+	syncFil 		INT,
+	modifSyncFil 	INT
+);
+
+CREATE TABLE Promo (
+	promo 			TEXT PRIMARY KEY NOT NULL,
+	syncProm 		INT,
+	modifSyncProm 	INT
+);
+
+CREATE TABLE Etudiant_supprime (
+	ineEtuSup 			TEXT PRIMARY KEY NOT NULL,
+	nomEtuSup 			TEXT NOT NULL,
+	prenomEtuSup 		TEXT NOT NULL,
+	mobile1EtuSup 		INT NOT NULL,
+	mobile2EtuSup		INT,
+	emailEtuSup 		TEXT,
+	adresseEtuSup		TEXT,
+	filiereEtuSup		TEXT,
+	promoEtuSup			TEXT,
+	specialiteEtuSup	TEXT
+);
+
+CREATE TABLE Filiere_supprimee (
+	libeleFilSup 		TEXT PRIMARY KEY NOT NULL,
+	specialitesFilSup 	TEXT
+);
+
+CREATE TABLE Promo_supprimee (
+	promo 			TEXT PRIMARY KEY NOT NULL
+);

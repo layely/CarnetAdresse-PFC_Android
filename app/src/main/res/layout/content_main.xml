@@ -14,4 +14,27 @@
     tools:context="com.univ_thies.www.carnetdadresseufrset.MainActivity"
     tools:showIn="@layout/activity_main">
 
-</>
+    <Button
+        android:id="@+id/btnListEtu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liste des étudiants" />
+
+    <Button
+        android:id="@+id/btnAddEtudiant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ajouter un étudiant" />
+
+    <Button
+        android:id="@+id/btnAddfiliere"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ajouter une filière" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+</LinearLayout>
