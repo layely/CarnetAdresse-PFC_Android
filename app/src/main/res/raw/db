@@ -17,7 +17,7 @@ CREATE TABLE Etudiant (
 
 CREATE TABLE Filiere (
 	libeleFil 		TEXT PRIMARY KEY NOT NULL,
-	specialitesFil 	TEXT
+	specialitesFil 	TEXT,
 	syncFil 		INT,
 	modifSyncFil 	INT
 );
@@ -49,3 +49,23 @@ CREATE TABLE Filiere_supprimee (
 CREATE TABLE Promo_supprimee (
 	promo 			TEXT PRIMARY KEY NOT NULL
 );
+
+INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2013-2014", 1, 1);
+INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2014-2015", 1, 1);
+
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("INFORMATIQUE", "RT|GL", 1, 1);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("MATHEMATIQUE & INFORMATIQUE", "", 1, 1);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("SCIENCE DE L'EAU ET DE L'ENVIRONNEMENT", "", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, syncEtu, modifSyncEtu)
+    VALUES("N11762720131SN", "LY", "ABDOULAYE OUMAR", 'F', "12/12/1995",773203934, 768928399, "enodeb@gmail.com",
+    "HLM Gr Yoff", "LI", "2013-2014", "GL", 1, 1);
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, syncEtu, modifSyncEtu)
+    VALUES("N04762420131SN", "GUEYE", "OUMAR", 'F', "12/12/1995", 774537699, 0, "ogueye@gmail.com",
+    "Diakhao", "LMI", "2014-2015", "", 1, 1);
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763425132SN", "SOW", "ABOU", 'F', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "LSEE", "2014-2015", "", 1, 1);

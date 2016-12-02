@@ -31,10 +31,17 @@ public class EtudiantDAO {
     public static final String COLUMN_SPECIALITE = "specialiteEtu";
     public static final String COLUMN_SYNC = "syncEtu";
     public static final String COLUMN_MODIF_SYNC = "modifSyncEtu";
+
+
     private SQLiteDatabase db;
+    private FiliereDAO filiereDAO;
+
+    private PromoDAO promoDAO;
 
     public EtudiantDAO(Context context) {
         db = new SQLHelper(context).getWritableDatabase();
+        filiereDAO = new FiliereDAO(context);
+        promoDAO = new PromoDAO(context);
     }
 
     public List<Etudiant> getAllEtudiants() {
@@ -70,8 +77,9 @@ public class EtudiantDAO {
             String promoStr = result.getString(result.getColumnIndex(COLUMN_PROMO));
             int sync = result.getInt(result.getColumnIndex(COLUMN_SYNC));
             int modif_sync = result.getInt(result.getColumnIndex(COLUMN_MODIF_SYNC));
-            Promo promo = Promo.getInstance(promoStr);
-            Filiere filiere = Filiere.getInstance(filiereStr);
+
+            Promo promo = new Promo(promoStr, 0, 0);//promoDAO.getPromo(promoStr);
+            Filiere filiere = filiereDAO.getFiliere(filiereStr);
 
             Etudiant etu = new Etudiant(ine, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, sync, modif_sync);
             list.add(etu);
@@ -98,17 +106,17 @@ public class EtudiantDAO {
             return null;
         }
         ContentValues values = new ContentValues();
-        values.put(COLUMN_INE, etudiant.getIne());
-        values.put(COLUMN_NOM, etudiant.getNom());
-        values.put(COLUMN_PRENOM, etudiant.getPrenom());
-        values.put(COLUMN_DATE_NAISS, etudiant.getDateNais());
-        values.put(COLUMN_SEXE, String.valueOf(etudiant.getSexe()));
+        values.put(COLUMN_INE, etudiant.getIne().toUpperCase());
+        values.put(COLUMN_NOM, etudiant.getNom().toUpperCase());
+        values.put(COLUMN_PRENOM, etudiant.getPrenom().toUpperCase());
+        values.put(COLUMN_DATE_NAISS, etudiant.getDateNais().toUpperCase());
+        values.put(COLUMN_SEXE, String.valueOf(etudiant.getSexe()).toUpperCase());
         values.put(COLUMN_MOBILE_1, etudiant.getMobile1());
         values.put(COLUMN_MOBILE_2, etudiant.getMobile2());
         values.put(COLUMN_EMAIL, etudiant.getEmail());
         values.put(COLUMN_ADRESSE, etudiant.getAddresse());
-        values.put(COLUMN_SPECIALITE, etudiant.getSpecialite());
-        values.put(COLUMN_FILIERE, etudiant.getFiliere().getLibelleFiliere());
+        values.put(COLUMN_SPECIALITE, etudiant.getSpecialite().toUpperCase());
+        values.put(COLUMN_FILIERE, etudiant.getFiliere().getLibelleFiliere().toUpperCase());
         values.put(COLUMN_PROMO, etudiant.getPromo().getPromo());
         values.put(COLUMN_SYNC, etudiant.getSync());
         values.put(COLUMN_MODIF_SYNC, etudiant.getModifSync());

@@ -1,10 +1,12 @@
 package com.univ_thies.www.carnetdadresseufrset.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by layely on 11/26/16.
  */
 
-public class Etudiant {
+public class Etudiant implements Serializable {
 
     String ine;
     String nom;

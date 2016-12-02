@@ -20,6 +20,7 @@ public class FiliereDAO {
     public static final String COLUMN_SPECIALITES = "specialitesFil";
     public static final String COLUMN_SYNC = "syncFil";
     public static final String COLUMN_MODIF_SYNC = "modifSyncFil";
+
     private SQLiteDatabase db;
 
     public FiliereDAO(Context context) {
@@ -58,6 +59,7 @@ public class FiliereDAO {
         return list;
     }
 
+
     public boolean addFiliere(Filiere newFiliere) {
         ContentValues cv = getFiliereContentValues(newFiliere);
         if (cv == null)
@@ -74,6 +76,22 @@ public class FiliereDAO {
         if (result == 0)
             return false;
         return true;
+    }
+
+    public Filiere getFiliere(String libele) {
+
+        Cursor result = db.rawQuery("SELECT " +
+                COLUMN_LIBELE + ", " +
+                COLUMN_SPECIALITES + ", " +
+                COLUMN_SYNC + ", " +
+                COLUMN_MODIF_SYNC +
+                " FROM " + SQLHelper.TABLE_FILIERE +
+                " WHERE " + COLUMN_LIBELE + "='" + libele.toUpperCase() + "'", null);
+
+        List<Filiere> list = asList(result);
+        if (list.size() > 1)
+            return list.get(0);
+        return null;
     }
 
     private ContentValues getFiliereContentValues(Filiere filiere) {

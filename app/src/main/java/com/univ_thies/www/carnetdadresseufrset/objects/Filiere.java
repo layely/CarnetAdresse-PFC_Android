@@ -1,5 +1,6 @@
 package com.univ_thies.www.carnetdadresseufrset.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by layely on 11/26/16.
  */
 
-public class Filiere {
+public class Filiere implements Serializable {
 
     private static ArrayList<String> specialites;
     private String libelleFiliere;
@@ -23,16 +24,11 @@ public class Filiere {
         this.libelleFiliere = libelleFiliere;
         this.specialites = specialites;
         this.sync = sync;
-        this.modifSync = sync;
+        this.modifSync = modifsync;
     }
 
     public Filiere(String libelleFiliere, int sync, int modifSync, String... specialites) {
-        this(libelleFiliere, new ArrayList(Arrays.asList()), sync, modifSync);
-    }
-
-    public static Filiere getInstance(String filiereStr) {
-        //TODO
-        return null;
+        this(libelleFiliere, new ArrayList(Arrays.asList(specialites)), sync, modifSync);
     }
 
     public static ArrayList<String> getListOfSpecialites(String specialitesStr) {
