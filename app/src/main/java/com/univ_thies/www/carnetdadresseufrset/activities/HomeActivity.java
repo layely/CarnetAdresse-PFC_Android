@@ -2,12 +2,14 @@ package com.univ_thies.www.carnetdadresseufrset.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -65,6 +67,9 @@ public class HomeActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTitleStrip);
+        pagerTabStrip.setTextColor(Color.WHITE);
+        pagerTabStrip.setTabIndicatorColor(Color.parseColor("#FF54D4"));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +133,35 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+            int numPage = getArguments().getInt(ARG_SECTION_NUMBER);
+
+            if (numPage == 1) {
+                //On Student list page
+                return onCreateViewPage1(inflater, container, savedInstanceState);
+            }
+            if (numPage == 0) {
+                //On search page
+                return onCreateViewPage0(inflater, container, savedInstanceState);
+            }
+            if (numPage == 2) {
+                //on broadcast page
+                return onCreateViewPage2(inflater, container, savedInstanceState);
+            }
+            return null;
+        }
+
+        private View onCreateViewPage2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            return rootView;
+        }
+
+        private View onCreateViewPage0(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            return rootView;
+        }
+
+        private View onCreateViewPage1(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.textviewUserName);
             final ListView listView = (ListView) rootView.findViewById(R.id.listview_etudiant);
@@ -149,7 +183,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         private void listItemClicked(Etudiant etudiant) {
-            Intent i = new Intent(HomeActivity.homeContext, EtudiantActivity.class);
+            Intent i = new Intent(HomeActivity.homeContext, DisplayEtudiantActivity.class);
 //            Bundle mBundle = new Bundle();
 //            mBundle.putSerializable(HomeActivity.SER_KEY_ETU, etudiant);
             i.putExtra(HomeActivity.SER_KEY_ETU, etudiant);
@@ -186,7 +220,7 @@ public class HomeActivity extends AppCompatActivity {
                 case 0:
                     return "Recherche";
                 case 1:
-                    return "Liste";
+                    return "Etudiants";
                 case 2:
                     return "Diffusion";
             }

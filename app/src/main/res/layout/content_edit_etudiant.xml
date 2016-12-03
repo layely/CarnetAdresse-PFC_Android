@@ -2,17 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_etudiant"
+    android:id="@+id/content_edit_etudiant"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.univ_thies.www.carnetdadresseufrset.activities.DisplayEtudiantActivity"
-    tools:showIn="@layout/activity_etudiant">
+    tools:context="com.univ_thies.www.carnetdadresseufrset.activities.EditEtudiantActivity"
+    tools:showIn="@layout/activity_edit_etudiant">
 
     <FrameLayout
-        android:id="@+id/fragment_display_etu"
+        android:id="@+id/fragment_edit_etu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
 </LinearLayout>

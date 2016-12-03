@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,20 +27,28 @@ import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 public class DisplayEtudiantFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "om.univ_thies.www.carnetdadresseufrset.activities.etu_key";
+    private static final String ARG_PARAM1 = "com.univ_thies.www.carnetdadresseufrset.activities.etu_key";
     //Widgets
-    TextView textViewNomPrenom;
-    TextView textViewFiliere;
-    TextView textViewPromo;
-    TextView textViewINE;
-    TextView textViewMobile1;
-    TextView textViewMobile2;
-    TextView textViewEmail;
-    TextView textViewSexe;
-    TextView textViewDateNais;
-    TextView textViewAdresse;
+    private TextView textViewNomPrenom;
+    private TextView textViewFiliere;
+    private TextView textViewPromo;
+    private TextView textViewINE;
+    private TextView textViewMobile1;
+    private TextView textViewMobile2;
+    private TextView textViewEmail;
+    private TextView textViewSexe;
+    private TextView textViewDateNais;
+    private TextView textViewAdresse;
     private Etudiant etudiant;
     private OnFragmentInteractionListener mListener;
+
+    private ImageButton btnCall1;
+    private ImageButton btnMess1;
+    private ImageButton btnCAll2;
+    private ImageButton btnMess2;
+    private ImageButton btnMail;
+
+    private RelativeLayout layoutMob2;
 
     public DisplayEtudiantFragment() {
         // Required empty public constructor
@@ -105,6 +116,46 @@ public class DisplayEtudiantFragment extends Fragment {
         textViewDateNais = (TextView) rootView.findViewById(R.id.textviewDateNaisDis);
         textViewDateNais.setText(etudiant.getDateNais());
 
+        btnCall1 = (ImageButton) rootView.findViewById(R.id.imageBtnCallMob1);
+
+        btnCall1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utilitaire.call(DisplayEtudiantFragment.this.getActivity(), textViewMobile1.getText().toString());
+            }
+        });
+
+        btnCAll2 = (ImageButton) rootView.findViewById(R.id.imageBtnCallMob2);
+        btnCAll2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utilitaire.call(DisplayEtudiantFragment.this.getActivity(), textViewMobile2.getText().toString());
+            }
+        });
+
+        btnMess1 = (ImageButton) rootView.findViewById(R.id.imageBtnMessMob1);
+        btnMess1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utilitaire.sendMessage(DisplayEtudiantFragment.this.getActivity(), textViewMobile1.getText().toString());
+            }
+        });
+
+        btnMess2 = (ImageButton) rootView.findViewById(R.id.imageBtnMessMob2);
+        btnMess2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utilitaire.sendMessage(DisplayEtudiantFragment.this.getActivity(), textViewMobile2.getText().toString());
+            }
+        });
+
+        btnMail = (ImageButton) rootView.findViewById(R.id.imageBtnMail);
+
+
+        layoutMob2 = (RelativeLayout) rootView.findViewById(R.id.layout_mob2);
+        if (etudiant.getMobile2() == 0) {
+            layoutMob2.setVisibility(View.GONE);
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

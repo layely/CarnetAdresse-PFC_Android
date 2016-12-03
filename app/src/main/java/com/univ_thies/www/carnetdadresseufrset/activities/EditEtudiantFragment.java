@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
+import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,8 +26,8 @@ public class EditEtudiantFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Etudiant etudiant;
+    private boolean toAdd;
 
     private OnFragmentInteractionListener mListener;
 
@@ -38,16 +39,12 @@ public class EditEtudiantFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditEtudiantFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static EditEtudiantFragment newInstance(String param1, String param2) {
+    public static EditEtudiantFragment newInstance(Etudiant etudiant, boolean toAdd) {
         EditEtudiantFragment fragment = new EditEtudiantFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, etudiant);
+        args.putBoolean(ARG_PARAM2, toAdd);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +53,8 @@ public class EditEtudiantFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            etudiant = (Etudiant) getArguments().getSerializable(ARG_PARAM1);
+            toAdd = (boolean) getArguments().getBoolean(ARG_PARAM2);
         }
     }
 

@@ -159,6 +159,7 @@
                     android:background="@color/colorLine"></View>
 
                 <RelativeLayout
+                    android:id="@+id/layout_mob2"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_dis_line_distance">
 
