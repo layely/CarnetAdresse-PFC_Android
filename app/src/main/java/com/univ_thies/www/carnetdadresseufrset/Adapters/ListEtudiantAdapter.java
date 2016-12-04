@@ -40,7 +40,7 @@ public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> {
 
         textviewNomPrenom.setText(etudiant.getPrenom() + " " + etudiant.getNom());
         textviewINE.setText(etudiant.getIne());
-        textviewFilProm.setText(etudiant.getFiliere() + " " + etudiant.getPromo().toString());
+        textviewFilProm.setText(etudiant.getFiliere().getLibelleFiliere() + " " + etudiant.getPromo().toString());
 
         return row;
     }

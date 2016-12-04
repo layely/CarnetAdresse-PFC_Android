@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
 
@@ -55,6 +56,7 @@ public class FiliereDAO {
 
             Filiere filiere = new Filiere(libelefil, specialites, sync, modifSync);
             list.add(filiere);
+            result.moveToNext();
         }
         return list;
     }
@@ -66,30 +68,27 @@ public class FiliereDAO {
             return false;
 
         long result = db.insert(SQLHelper.TABLE_FILIERE, null, cv);
-        if (result == -1)
-            return false;
-        return true;
+        return result != -1;
     }
 
     public boolean deleteFiliere(String libeleFiliere) {
         int result = db.delete(SQLHelper.TABLE_FILIERE, COLUMN_LIBELE + "='" + libeleFiliere.toUpperCase() + "'", null);
-        if (result == 0)
-            return false;
-        return true;
+        return result != 0;
     }
 
     public Filiere getFiliere(String libele) {
-
-        Cursor result = db.rawQuery("SELECT " +
+        String query = "SELECT " +
                 COLUMN_LIBELE + ", " +
                 COLUMN_SPECIALITES + ", " +
                 COLUMN_SYNC + ", " +
                 COLUMN_MODIF_SYNC +
                 " FROM " + SQLHelper.TABLE_FILIERE +
-                " WHERE " + COLUMN_LIBELE + "='" + libele.toUpperCase() + "'", null);
+                " WHERE " + COLUMN_LIBELE + " like '" + libele.toUpperCase() + "'";
+        Cursor result = db.rawQuery(query, null);
 
         List<Filiere> list = asList(result);
-        if (list.size() > 1)
+        Log.i("tag", "on Get Filiere:::::  list size : " + list.size());
+        if (list.size() > 0)
             return list.get(0);
         return null;
     }

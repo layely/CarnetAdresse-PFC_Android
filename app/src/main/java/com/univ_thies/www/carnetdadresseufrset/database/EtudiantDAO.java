@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
@@ -79,6 +80,7 @@ public class EtudiantDAO {
             int modif_sync = result.getInt(result.getColumnIndex(COLUMN_MODIF_SYNC));
 
             Promo promo = new Promo(promoStr, 0, 0);//promoDAO.getPromo(promoStr);
+            Log.i("tag", "on Get All Etudiant ::::: filiereStr : " + filiereStr);
             Filiere filiere = filiereDAO.getFiliere(filiereStr);
 
             Etudiant etu = new Etudiant(ine, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, sync, modif_sync);
@@ -95,9 +97,7 @@ public class EtudiantDAO {
             return false;
 
         long result = db.insert(SQLHelper.TABLE_ETUDIANT, null, cv);
-        if (result == -1)
-            return false;
-        return true;
+        return result != -1;
     }
 
 

@@ -22,7 +22,7 @@ public class Filiere implements Serializable {
 
     public Filiere(String libelleFiliere, ArrayList<String> specialites, int sync, int modifsync) {
         this.libelleFiliere = libelleFiliere;
-        this.specialites = specialites;
+        Filiere.specialites = specialites;
         this.sync = sync;
         this.modifSync = modifsync;
     }
@@ -43,6 +43,17 @@ public class Filiere implements Serializable {
         return strBuilder.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Filiere))
+            return false;
+
+        Filiere a = (Filiere) o;
+
+        return this.getLibelleFiliere().equalsIgnoreCase(a.getLibelleFiliere());
+
+    }
+
     public String getLibelleFiliere() {
         return libelleFiliere;
     }
@@ -56,7 +67,7 @@ public class Filiere implements Serializable {
     }
 
     public void setSpecialites(ArrayList<String> specialites) {
-        this.specialites = specialites;
+        Filiere.specialites = specialites;
     }
 
     public int getSync() {

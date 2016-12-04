@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
@@ -135,16 +136,19 @@ public class HomeActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             int numPage = getArguments().getInt(ARG_SECTION_NUMBER);
+            Toast.makeText(getContext(), String.valueOf(numPage), Toast.LENGTH_SHORT).show();
 
             if (numPage == 1) {
-                //On Student list page
-                return onCreateViewPage1(inflater, container, savedInstanceState);
-            }
-            if (numPage == 0) {
                 //On search page
                 return onCreateViewPage0(inflater, container, savedInstanceState);
             }
+
             if (numPage == 2) {
+                //On Student list page
+                return onCreateViewPage1(inflater, container, savedInstanceState);
+            }
+
+            if (numPage == 3) {
                 //on broadcast page
                 return onCreateViewPage2(inflater, container, savedInstanceState);
             }

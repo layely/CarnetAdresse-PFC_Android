@@ -26,6 +26,7 @@ public class DisplayEtudiantActivity extends AppCompatActivity implements Displa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         etudiant = (Etudiant) getIntent().getSerializableExtra(HomeActivity.SER_KEY_ETU);
 //        Toast.makeText(this, etudiant.getPrenom(), Toast.LENGTH_LONG).show();
 

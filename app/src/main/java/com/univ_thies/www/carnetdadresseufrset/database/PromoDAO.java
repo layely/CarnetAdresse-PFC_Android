@@ -52,6 +52,7 @@ public class PromoDAO {
 
             Promo prom = new Promo(promo, sync, modifSync);
             list.add(prom);
+            result.moveToNext();
         }
         return list;
     }
@@ -62,16 +63,12 @@ public class PromoDAO {
             return false;
 
         long result = db.insert(SQLHelper.TABLE_PROMO, null, cv);
-        if (result == -1)
-            return false;
-        return true;
+        return result != -1;
     }
 
     public boolean deleteFiliere(String promo) {
         int result = db.delete(SQLHelper.TABLE_PROMO, COLUMN_PROMO + "='" + promo.toUpperCase() + "'", null);
-        if (result == 0)
-            return false;
-        return true;
+        return result != 0;
     }
 
     public Promo getPromo(String promo) {
