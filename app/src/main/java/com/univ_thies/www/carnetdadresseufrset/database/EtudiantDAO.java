@@ -115,7 +115,8 @@ public class EtudiantDAO {
         values.put(COLUMN_MOBILE_2, etudiant.getMobile2());
         values.put(COLUMN_EMAIL, etudiant.getEmail());
         values.put(COLUMN_ADRESSE, etudiant.getAddresse());
-        values.put(COLUMN_SPECIALITE, etudiant.getSpecialite().toUpperCase());
+        if (etudiant.getSpecialite() != null)
+            values.put(COLUMN_SPECIALITE, etudiant.getSpecialite().toUpperCase());
         values.put(COLUMN_FILIERE, etudiant.getFiliere().getLibelleFiliere().toUpperCase());
         values.put(COLUMN_PROMO, etudiant.getPromo().getPromo());
         values.put(COLUMN_SYNC, etudiant.getSync());
@@ -123,4 +124,7 @@ public class EtudiantDAO {
         return values;
     }
 
+    public void modify(Etudiant etudiant, Etudiant newEtu) {
+        //TODO
+    }
 }

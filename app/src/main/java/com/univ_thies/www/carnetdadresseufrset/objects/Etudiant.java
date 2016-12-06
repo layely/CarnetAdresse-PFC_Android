@@ -55,6 +55,11 @@ public class Etudiant implements Serializable {
         this.modif_sync = modif_sync;
     }
 
+    public Etudiant(int sync, int modif_sync) {
+        this.sync = sync;
+        this.modif_sync = sync;
+    }
+
     public String getIne() {
         return ine;
     }
@@ -131,12 +136,24 @@ public class Etudiant implements Serializable {
         return prenom;
     }
 
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
     public Filiere getFiliere() {
         return filiere;
     }
 
+    public void setFiliere(Filiere filiere) {
+        this.filiere = filiere;
+    }
+
     public Promo getPromo() {
         return promo;
+    }
+
+    public void setPromo(Promo promo) {
+        this.promo = promo;
     }
 
     public int getSync() {

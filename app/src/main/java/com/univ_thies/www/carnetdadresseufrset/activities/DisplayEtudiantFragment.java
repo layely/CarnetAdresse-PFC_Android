@@ -31,6 +31,7 @@ public class DisplayEtudiantFragment extends Fragment {
     //Widgets
     private TextView textViewNomPrenom;
     private TextView textViewFiliere;
+    private TextView textviewSpecialite;
     private TextView textViewPromo;
     private TextView textViewINE;
     private TextView textViewMobile1;
@@ -91,6 +92,11 @@ public class DisplayEtudiantFragment extends Fragment {
         if (etudiant.getFiliere() != null)
             textViewFiliere.setText(etudiant.getFiliere().getLibelleFiliere());
 
+        textviewSpecialite = (TextView) (rootView.findViewById(R.id.textviewSpeDis));
+        if (etudiant.getSpecialite() == null)
+            textviewSpecialite.setVisibility(View.GONE);
+        else
+            textviewSpecialite.setText(etudiant.getSpecialite());
         textViewPromo = (TextView) rootView.findViewById(R.id.textviewPromoDis);
         if (etudiant.getPromo() != null)
             textViewPromo.setText(etudiant.getPromo().getPromo());
