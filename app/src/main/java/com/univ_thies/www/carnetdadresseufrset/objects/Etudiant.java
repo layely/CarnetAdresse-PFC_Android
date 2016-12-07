@@ -1,6 +1,8 @@
 package com.univ_thies.www.carnetdadresseufrset.objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by layely on 11/26/16.
@@ -22,6 +24,8 @@ public class Etudiant implements Serializable {
     Promo promo;
     int sync;
     int modif_sync;
+
+    String highlightedName = null;
 
     public Etudiant(String ine, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, int sync, int modif_sync) {
         this.ine = ine;
@@ -56,8 +60,35 @@ public class Etudiant implements Serializable {
     }
 
     public Etudiant(int sync, int modif_sync) {
-        this.sync = sync;
         this.modif_sync = sync;
+    }
+
+    public static List<Etudiant> search(List<Etudiant> etudiants, String toSearch) {
+        if (etudiants == null)
+            return null;
+        ArrayList<Etudiant> found = new ArrayList<>(25);
+        if (toSearch.isEmpty()) {
+            return found;
+        }
+
+        for (Etudiant etu : etudiants) {
+            if (etu.getNom().contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if (etu.getPrenom().contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if (etu.getIne().contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if (etu.getAddresse().contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if (String.valueOf(etu.getMobile1()).contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if (String.valueOf(etu.getMobile2()).contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if (etu.getEmail().contains(toSearch))
+                found.add(etu);
+        }
+
+        return found;
     }
 
     public String getIne() {
@@ -162,5 +193,13 @@ public class Etudiant implements Serializable {
 
     public int getModifSync() {
         return modif_sync;
+    }
+
+    public String getHighlightedName() {
+        return highlightedName;
+    }
+
+    public void setHighlightedName(String highlightedName) {
+        this.highlightedName = highlightedName;
     }
 }

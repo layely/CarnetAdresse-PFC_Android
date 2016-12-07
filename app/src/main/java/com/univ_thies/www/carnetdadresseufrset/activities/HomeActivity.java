@@ -11,10 +11,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +30,7 @@ import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -150,32 +154,95 @@ public class HomeActivity extends AppCompatActivity {
 
             if (numPage == 1) {
                 //On search page
-                return onCreateViewPage0(inflater, container, savedInstanceState);
+                return onCreateViewPage1(inflater, container, savedInstanceState);
             }
 
             if (numPage == 2) {
                 //On Student list page
-                return onCreateViewPage1(inflater, container, savedInstanceState);
+                return onCreateViewPage2(inflater, container, savedInstanceState);
             }
 
             if (numPage == 3) {
                 //on broadcast page
-                return onCreateViewPage2(inflater, container, savedInstanceState);
+                return onCreateViewPage3(inflater, container, savedInstanceState);
             }
             return null;
         }
 
-        private View onCreateViewPage2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            return rootView;
-        }
-
-        private View onCreateViewPage0(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            return rootView;
-        }
-
         private View onCreateViewPage1(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            Toolbar toolbarSearch = (Toolbar) rootView.findViewById(R.id.toolbarSearch);
+            toolbarSearch.setVisibility(View.VISIBLE);
+
+            final SearchView searchView = (SearchView) rootView.findViewById(R.id.searchview);
+
+            final ListView listView = (ListView) rootView.findViewById(R.id.listview_etudiant);
+            final List<Etudiant> listEtudiants = new ArrayList<>();
+
+            searchView.requestFocus();
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    listEtudiants.clear();
+                    ((ListEtudiantAdapter) listView.getAdapter()).notifyDataSetChanged();
+                    return false;
+                }
+            });
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    listEtudiants.clear();
+                    listEtudiants.addAll(Etudiant.search(etudiantDAO.getAllEtudiants(), searchView.getQuery().toString()));
+                    ((ListEtudiantAdapter) listView.getAdapter()).notifyDataSetChanged();
+                    Log.i("tag", "mylistview data has changed --- on Text submit");
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    ListEtudiantAdapter arrayAdapter = ((ListEtudiantAdapter) listView.getAdapter());
+                    arrayAdapter.setToHighlight(searchView.getQuery().toString());
+                    listEtudiants.clear();
+                    listEtudiants.addAll(Etudiant.search(etudiantDAO.getAllEtudiants(), searchView.getQuery().toString().trim()));
+                    arrayAdapter.notifyDataSetChanged();
+                    Log.i("tag", "mylistview data has changed --- on Text Change");
+                    return false;
+                }
+            });
+
+            searchView.setQueryHint("INE, Nom, Prenom ...");
+
+            listView.setAdapter(new ListEtudiantAdapter(homeContext, listEtudiants));
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    listItemClicked((Etudiant) listView.getItemAtPosition(position));
+                }
+            });
+
+            searchView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    searchView.requestFocus();
+                }
+            });
+
+            searchView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    searchView.requestFocus();
+                    return false;
+                }
+            });
+
+            searchView.onActionViewExpanded();
+
+            return rootView;
+        }
+
+        private View onCreateViewPage2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.textviewUserName);
             final ListView listView = (ListView) rootView.findViewById(R.id.listview_etudiant);
@@ -193,6 +260,11 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
 
+            return rootView;
+        }
+
+        private View onCreateViewPage3(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
             return rootView;
         }
 
