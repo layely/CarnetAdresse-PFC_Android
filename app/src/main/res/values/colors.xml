@@ -1,11 +1,11 @@
 <resources>
-    <color name="colorPrimary">#800000</color>
-    <color name="colorPrimaryDark">#6E0B14</color>
+    <color name="colorPrimary">#607d8b</color>
+    <color name="colorPrimaryDark">#263238</color>
     <color name="colorAccent2">#FF4081</color>
-    <color name="colorAccent">#800000</color>
+    <color name="colorAccent">#263238</color>
     <color name="colorText">#000000</color>
     <color name="colorLine">#E5E5E5</color>
-    <color name="colorMicroTextDis">#800000</color>
+    <color name="colorMicroTextDis">#455a64</color>
     <color name="colorBackgroundTitle">#E5E5E5</color>
-    <color name="AppBarColor">#800000</color>
+    <color name="AppBarColor">#607d8b</color>
 </resources>

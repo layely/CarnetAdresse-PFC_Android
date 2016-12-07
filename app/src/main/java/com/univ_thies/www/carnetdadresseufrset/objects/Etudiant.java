@@ -25,8 +25,6 @@ public class Etudiant implements Serializable {
     int sync;
     int modif_sync;
 
-    String highlightedName = null;
-
     public Etudiant(String ine, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, int sync, int modif_sync) {
         this.ine = ine;
         this.nom = nom;
@@ -195,11 +193,4 @@ public class Etudiant implements Serializable {
         return modif_sync;
     }
 
-    public String getHighlightedName() {
-        return highlightedName;
-    }
-
-    public void setHighlightedName(String highlightedName) {
-        this.highlightedName = highlightedName;
-    }
 }

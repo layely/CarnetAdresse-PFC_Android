@@ -77,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
         pagerTabStrip.setTextColor(Color.WHITE);
         pagerTabStrip.setTabIndicatorColor(Color.parseColor("#FF54D4"));
 
+        ((ViewPager.LayoutParams) pagerTabStrip.getLayoutParams()).isDecor = true;
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

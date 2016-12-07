@@ -7,74 +7,83 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:background="@color/colorBackgroundTitle"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textviewNomPrenomDis"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="ABDOULAYE OUMAR LY DABY"
-                android:textColor="@color/colorText"
-                android:textSize="@dimen/dim_text2" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            card_view:cardBackgroundColor="@color/colorBackgroundTitle">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
+                android:layout_height="125dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textviewFilDis"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textviewNomPrenomDis"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Informatique"
-                    android:textColor="@color/colorText" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/textviewSpeDis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reseaux et Telecoms"
-                    android:textColor="@color/colorText" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:id="@+id/textviewPromoDis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2015-2016"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="ABDOULAYE OUMAR LY DABY"
                     android:textColor="@color/colorText"
-                    android:textSize="@dimen/dim_normal_text" />
+                    android:textSize="@dimen/dim_text2" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:id="@+id/textviewFilDis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Informatique"
+                        android:textColor="@color/colorText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:id="@+id/textviewSpeDis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reseaux et Telecoms"
+                        android:textColor="@color/colorText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:id="@+id/textviewPromoDis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2015-2016"
+                        android:textColor="@color/colorText"
+                        android:textSize="@dimen/dim_normal_text" />
+                </LinearLayout>
             </LinearLayout>
-
-
-        </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine"></View>
+            android:layout_height="5dp"></View>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -357,5 +366,10 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@color/cardview_light_background" />
     </LinearLayout>
 </FrameLayout>

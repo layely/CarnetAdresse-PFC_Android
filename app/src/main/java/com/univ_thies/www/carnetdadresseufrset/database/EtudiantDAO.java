@@ -48,7 +48,7 @@ public class EtudiantDAO {
     public List<Etudiant> getAllEtudiants() {
         List<Etudiant> list = null;
 
-        String query = "SELECT * FROM " + SQLHelper.TABLE_ETUDIANT;
+        String query = "SELECT * FROM " + SQLHelper.TABLE_ETUDIANT + " ORDER BY " + COLUMN_PRENOM;
 
         Cursor result = db.rawQuery(query, null);
 

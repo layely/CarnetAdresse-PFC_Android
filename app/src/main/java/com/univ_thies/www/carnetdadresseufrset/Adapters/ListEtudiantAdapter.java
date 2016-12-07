@@ -44,7 +44,7 @@ public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> {
 
         String nomPrenom = etudiant.getPrenom() + " " + etudiant.getNom();
         String[] splited = nomPrenom.split(Pattern.quote(toHighlight));
-        String toHightlightStyled = "<font size=\"\" color=\"#FF0000\" face=\"\">" + toHighlight + "</font>";
+        String toHightlightStyled = "<font size=\"\" color=\"#ff0000\" face=\"\">" + toHighlight + "</font>";
         StringBuilder toHTML = new StringBuilder();
         for (int i = 0; i < splited.length; i++) {
             String str = splited[i];

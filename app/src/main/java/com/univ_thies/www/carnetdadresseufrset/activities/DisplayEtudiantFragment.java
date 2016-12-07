@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
-import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
+import com.univ_thies.www.carnetdadresseufrset.util.Communication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -127,7 +127,7 @@ public class DisplayEtudiantFragment extends Fragment {
         btnCall1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilitaire.call(DisplayEtudiantFragment.this.getActivity(), textViewMobile1.getText().toString());
+                Communication.call(DisplayEtudiantFragment.this.getActivity(), textViewMobile1.getText().toString());
             }
         });
 
@@ -135,7 +135,7 @@ public class DisplayEtudiantFragment extends Fragment {
         btnCAll2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilitaire.call(DisplayEtudiantFragment.this.getActivity(), textViewMobile2.getText().toString());
+                Communication.call(DisplayEtudiantFragment.this.getActivity(), textViewMobile2.getText().toString());
             }
         });
 
@@ -143,7 +143,7 @@ public class DisplayEtudiantFragment extends Fragment {
         btnMess1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilitaire.sendMessage(DisplayEtudiantFragment.this.getActivity(), textViewMobile1.getText().toString());
+                Communication.sendMessage(DisplayEtudiantFragment.this.getActivity(), textViewMobile1.getText().toString());
             }
         });
 
@@ -151,12 +151,17 @@ public class DisplayEtudiantFragment extends Fragment {
         btnMess2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilitaire.sendMessage(DisplayEtudiantFragment.this.getActivity(), textViewMobile2.getText().toString());
+                Communication.sendMessage(DisplayEtudiantFragment.this.getActivity(), textViewMobile2.getText().toString());
             }
         });
 
         btnMail = (ImageButton) rootView.findViewById(R.id.imageBtnMail);
-
+        btnMail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Communication.sendMail(DisplayEtudiantFragment.this.getActivity(), textViewEmail.getText().toString());
+            }
+        });
 
         layoutMob2 = (RelativeLayout) rootView.findViewById(R.id.layout_mob2);
         if (etudiant.getMobile2() == 0) {
