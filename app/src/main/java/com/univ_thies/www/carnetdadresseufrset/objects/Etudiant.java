@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Etudiant implements Serializable {
 
+    public static final String[] niveaux = {"L1", "L2", "L3", "M1", "M2"};
     String ine;
     String nom;
     String prenom;
@@ -22,10 +23,11 @@ public class Etudiant implements Serializable {
     String specialite;
     Filiere filiere;
     Promo promo;
+    String niveau;
     int sync;
     int modif_sync;
 
-    public Etudiant(String ine, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, int sync, int modif_sync) {
+    public Etudiant(String ine, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
         this.ine = ine;
         this.nom = nom;
         this.dateNais = dateNais;
@@ -36,11 +38,12 @@ public class Etudiant implements Serializable {
         this.mobile1 = mobile1;
         this.promo = promo;
         this.filiere = filiere;
+        this.niveau = niveau;
         this.sync = sync;
         this.modif_sync = modif_sync;
     }
 
-    public Etudiant(String ine, String nom, String prenom, String dateNais, char sexe, long mobile1, long mobile2, String email, String addresse, String specialite, Filiere filiere, Promo promo, int sync, int modif_sync) {
+    public Etudiant(String ine, String nom, String prenom, String dateNais, char sexe, long mobile1, long mobile2, String email, String addresse, String specialite, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
         this.ine = ine;
         this.nom = nom;
         this.prenom = prenom;
@@ -53,12 +56,14 @@ public class Etudiant implements Serializable {
         this.specialite = specialite;
         this.filiere = filiere;
         this.promo = promo;
+        this.niveau = niveau;
         this.sync = sync;
         this.modif_sync = modif_sync;
     }
 
     public Etudiant(int sync, int modif_sync) {
-        this.modif_sync = sync;
+        this.sync = sync;
+        this.modif_sync = modif_sync;
     }
 
     public static List<Etudiant> search(List<Etudiant> etudiants, String toSearch) {
@@ -73,6 +78,8 @@ public class Etudiant implements Serializable {
             if (etu.getNom().contains(toSearch.toUpperCase()))
                 found.add(etu);
             else if (etu.getPrenom().contains(toSearch.toUpperCase()))
+                found.add(etu);
+            else if ((etu.getPrenom() + " " + etu.getNom()).contains(toSearch.toUpperCase()))
                 found.add(etu);
             else if (etu.getIne().contains(toSearch.toUpperCase()))
                 found.add(etu);
@@ -193,4 +200,11 @@ public class Etudiant implements Serializable {
         return modif_sync;
     }
 
+    public String getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(String niveau) {
+        this.niveau = niveau;
+    }
 }

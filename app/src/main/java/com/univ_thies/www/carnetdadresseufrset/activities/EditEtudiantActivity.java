@@ -41,6 +41,7 @@ public class EditEtudiantActivity extends AppCompatActivity {
     Spinner spinnerSexe;
     Spinner spinnerFiliere;
     Spinner spinnerSpecialite;
+    Spinner spinnerNiveau;
     AutoCompleteTextView autoCompleteTextViewPromo;
     Etudiant etudiant;
     boolean toAdd;
@@ -112,9 +113,12 @@ public class EditEtudiantActivity extends AppCompatActivity {
 
         spinnerFiliere = (Spinner) findViewById(R.id.spinnerFilEdit);
         List<Filiere> filieres = filiereDAO.getAllFiliere();
-
         SpinnerFiliereAdapter filiereAdapter = new SpinnerFiliereAdapter(this, R.layout.item_filiere, R.id.textFil_item, filieres);
         spinnerFiliere.setAdapter(filiereAdapter);
+
+        spinnerNiveau = (Spinner) findViewById(R.id.spinnerNiveau);
+        spinnerNiveau.setAdapter(new ArrayAdapter<String>(this, R.layout.item_filiere, R.id.textFil_item, Etudiant.niveaux));
+
         spinnerSexe = (Spinner) findViewById(R.id.spinnerSexeEdit);
 
         spinnerSpecialite = (Spinner) findViewById(R.id.spinnerSpecialite);
@@ -242,6 +246,7 @@ public class EditEtudiantActivity extends AppCompatActivity {
         etu.setSexe(sexe);
         etu.setAddresse(addresse);
         etu.setDateNais(dateNaiss);
+        etu.setNiveau((String) spinnerNiveau.getSelectedItem());
 
         if (spinnerSpecialite.getVisibility() == View.VISIBLE) {
             etu.setSpecialite((String) spinnerSpecialite.getSelectedItem());

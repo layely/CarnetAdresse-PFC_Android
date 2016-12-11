@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,11 +22,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
+import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
@@ -33,11 +36,14 @@ import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 public class HomeActivity extends AppCompatActivity {
 
     public static final String SER_KEY_ETU = "om.univ_thies.www.carnetdadresseufrset.activities.key_etu";
+    public static Context homeContext;
+    public static FloatingActionButton fab;
     private static EtudiantDAO etudiantDAO;
-    private static Context homeContext;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -73,13 +79,15 @@ public class HomeActivity extends AppCompatActivity {
 
         mViewPager.setCurrentItem(1);
 
+        OverScrollDecoratorHelper.setUpOverScroll(mViewPager);
+
         PagerTabStrip pagerTabStrip = (PagerTabStrip) findViewById(R.id.pagerTitleStrip);
         pagerTabStrip.setTextColor(Color.WHITE);
-        pagerTabStrip.setTabIndicatorColor(Color.parseColor("#FF54D4"));
+        pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorBackgroundTitle));
 
         ((ViewPager.LayoutParams) pagerTabStrip.getLayoutParams()).isDecor = true;
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,6 +139,7 @@ public class HomeActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        SearchView searchView;
 
         public PlaceholderFragment() {
         }
@@ -146,6 +155,16 @@ public class HomeActivity extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
+
+        @Override
+        public void onResume() {
+            int numPage = getArguments().getInt(ARG_SECTION_NUMBER);
+            super.onResume();
+            if (numPage == 1) {
+                searchView.onActionViewExpanded();
+            }
+        }
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -176,12 +195,22 @@ public class HomeActivity extends AppCompatActivity {
             Toolbar toolbarSearch = (Toolbar) rootView.findViewById(R.id.toolbarSearch);
             toolbarSearch.setVisibility(View.VISIBLE);
 
-            final SearchView searchView = (SearchView) rootView.findViewById(R.id.searchview);
+            searchView = (SearchView) rootView.findViewById(R.id.searchview);
 
             final ListView listView = (ListView) rootView.findViewById(R.id.listview_etudiant);
             final List<Etudiant> listEtudiants = new ArrayList<>();
 
-            searchView.requestFocus();
+//            RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycleview_etudiant);
+//            rv.setHasFixedSize(true);
+//
+//            // use a linear layout manager
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
+//            rv.setLayoutManager(mLayoutManager);
+//
+//            RecycleViewAdapter mAdapter = new RecycleViewAdapter(listEtudiants);
+//            rv.setAdapter(mAdapter);
+
+//            searchView.requestFocus();
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
@@ -220,7 +249,7 @@ public class HomeActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listItemClicked((Etudiant) listView.getItemAtPosition(position));
+                    listItemClicked(view, (Etudiant) listView.getItemAtPosition(position));
                 }
             });
 
@@ -239,7 +268,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
 
-            searchView.onActionViewExpanded();
+//            searchView.onActionViewExpanded();
 
             return rootView;
         }
@@ -258,19 +287,40 @@ public class HomeActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    listItemClicked((Etudiant) listView.getItemAtPosition(position));
+                    listItemClicked(view, (Etudiant) listView.getItemAtPosition(position));
                 }
             });
+
+            OverScrollDecoratorHelper.setUpOverScroll(listView);
+//            RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycleview_etudiant);
+//            rv.setHasFixedSize(true);
+//
+//            // use a linear layout manager
+//            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
+//            rv.setLayoutManager(mLayoutManager);
+//
+//            final RecycleViewAdapter mAdapter = new RecycleViewAdapter(listEtudiants);
+//            rv.setAdapter(mAdapter);
+
 
             return rootView;
         }
 
         private View onCreateViewPage3(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_diffusion, container, false);
+            ExpandableListView elv = (ExpandableListView) rootView.findViewById(R.id.expandablelistview);
+            MyExpandableListAdapter myExpandableListAdapter = new MyExpandableListAdapter();
+            elv.setAdapter(myExpandableListAdapter);
+            OverScrollDecoratorHelper.setUpOverScroll(elv);
+//            NestedScrollingChildHelper nsch = new NestedScrollingChildHelper(elv);
+//            nsch.setNestedScrollingEnabled(true);
+            TextView textView = (TextView) rootView.findViewById(R.id.textview_testdiffusion);
             return rootView;
         }
 
-        private void listItemClicked(Etudiant etudiant) {
+        private void listItemClicked(View view, Etudiant etudiant) {
+            ((CardView) view.findViewById(R.id.card_view)).setCardBackgroundColor(
+                    (getResources().getColor(R.color.colorBackgroundTitle)));
             Intent i = new Intent(HomeActivity.homeContext, DisplayEtudiantActivity.class);
 //            Bundle mBundle = new Bundle();
 //            mBundle.putSerializable(HomeActivity.SER_KEY_ETU, etudiant);

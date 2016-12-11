@@ -11,6 +11,7 @@ CREATE TABLE Etudiant (
 	filiereEtu		TEXT NOT NULL,
 	promoEtu		TEXT NOT NULL,
 	specialiteEtu	TEXT,
+	niveauEtu       TEXT NOT NULL,
 	syncEtu 		INT NOT NULL,
 	modifSyncEtu 	INT NOT NULL
 );
@@ -38,7 +39,8 @@ CREATE TABLE Etudiant_supprime (
 	adresseEtuSup		TEXT,
 	filiereEtuSup		TEXT,
 	promoEtuSup			TEXT,
-	specialiteEtuSup	TEXT
+	specialiteEtuSup	TEXT,
+	niveauEtuSup        TEXT
 );
 
 CREATE TABLE Filiere_supprimee (
@@ -56,16 +58,67 @@ INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2014-2015", 1, 1);
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("INFORMATIQUE", "RT|GL", 1, 1);
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("MATHEMATIQUE & INFORMATIQUE", "", 1, 1);
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("EAU & ENVIRONNEMENT", "", 1, 1);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("PHYSIQUE & CHIMIE", "", 1, 1);
 
 INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
-adresseEtu, filiereEtu, promoEtu, specialiteEtu, syncEtu, modifSyncEtu)
-    VALUES("N11762720131SN", "LY", "ABDOULAYE OUMAR", 'F', "12/12/1995",773203934, 768928399, "enodeb@gmail.com",
-    "HLM Gr Yoff", "MATHEMATIQUE & INFORMATIQUE", "2013-2014", "GL", 1, 1);
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N11762720131SN", "LY", "ABDOULAYE OUMAR", 'M', "12/12/1995",773203934, 768928399, "enodeb@gmail.com",
+    "HLM Gr Yoff", "MATHEMATIQUE & INFORMATIQUE", "2013-2014", "GL", "L1", 1, 1);
 INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
-adresseEtu, filiereEtu, promoEtu, specialiteEtu, syncEtu, modifSyncEtu)
-    VALUES("N04762420131SN", "GUEYE", "OUMAR", 'F', "12/12/1995", 774537699, 0, "ogueye@gmail.com",
-    "Diakhao", "INFORMATIQUE", "2014-2015", "", 1, 1);
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu,syncEtu, modifSyncEtu)
+    VALUES("N04762420131SN", "GUEYE", "OUMAR", 'm', "12/12/1995", 774537699, 0, "ogueye@gmail.com",
+    "Diakhao", "INFORMATIQUE", "2014-2015", "", "L2",1, 1);
 INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
-adresseEtu, filiereEtu, promoEtu, specialiteEtu, syncEtu, modifSyncEtu)
-    VALUES("N07763425132SN", "SOW", "ABOU", 'F', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
-    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", 1, 1);
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763425132SN", "SOW", "ABOU", 'm', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763424567SN", "BA", "SEYDOU", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N077634254567SN", "LY", "HAMADY", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N0776346789SN", "SY", "HAROUNA", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+        "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+  adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+     VALUES("N0779765132SN", "FALL", "PAPE BABACAR", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+            "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763576442SN", "BADIANE", "BAYE MBAYE", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N0776399702SN", "KAMA", "MBATHIO", 'F', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N077634567832SN", "NDIR", "KINE MBODJ", 'F', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N056634455632SN", "GUEYE", "IDRISSA GANA", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N078636786132SN", "KANE", "MARIEME", 'F', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+INSERT INTO Etudiant (ineEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N4568907979SN", "NDOUR", "VIVIANE", 'F', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);

@@ -12,6 +12,8 @@ import android.widget.Button;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnListEtudiant = null;
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         etudiantDAO = new EtudiantDAO(this);
         btnListEtudiant = (Button) findViewById(R.id.btnListEtu);
+
+        Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
 
         btnListEtudiant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        ArrayList<String[]> hello = new ArrayList<>();
     }
 
 }

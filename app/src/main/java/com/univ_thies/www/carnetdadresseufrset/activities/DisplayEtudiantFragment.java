@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
+
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +43,10 @@ public class DisplayEtudiantFragment extends Fragment {
     private TextView textViewSexe;
     private TextView textViewDateNais;
     private TextView textViewAdresse;
+    private TextView textViewNiveau;
+
+    private ScrollView scrollView;
+
     private Etudiant etudiant;
     private OnFragmentInteractionListener mListener;
 
@@ -85,6 +92,10 @@ public class DisplayEtudiantFragment extends Fragment {
     }
 
     private void initWidgets(View rootView) {
+        scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDis);
+
+        OverScrollDecoratorHelper.setUpStaticOverScroll(scrollView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+
         textViewNomPrenom = (TextView) (rootView.findViewById(R.id.textviewNomPrenomDis));
         textViewNomPrenom.setText(etudiant.getPrenom() + " " + etudiant.getNom());
 
@@ -92,6 +103,9 @@ public class DisplayEtudiantFragment extends Fragment {
         if (etudiant.getFiliere() != null)
             textViewFiliere.setText(etudiant.getFiliere().getLibelleFiliere());
 
+        textViewNiveau = (TextView) (rootView.findViewById(R.id.textviewNiveauDis));
+        textViewNiveau.setText(etudiant.getNiveau());
+        
         textviewSpecialite = (TextView) (rootView.findViewById(R.id.textviewSpeDis));
         if (etudiant.getSpecialite() == null)
             textviewSpecialite.setVisibility(View.GONE);

@@ -32,8 +32,7 @@ public class EtudiantDAO {
     public static final String COLUMN_SPECIALITE = "specialiteEtu";
     public static final String COLUMN_SYNC = "syncEtu";
     public static final String COLUMN_MODIF_SYNC = "modifSyncEtu";
-
-
+    private static final String COLUMN_NIVEAU = "niveauEtu";
     private SQLiteDatabase db;
     private FiliereDAO filiereDAO;
 
@@ -76,6 +75,7 @@ public class EtudiantDAO {
             String specialite = result.getString(result.getColumnIndex(COLUMN_SPECIALITE));
             String filiereStr = result.getString(result.getColumnIndex(COLUMN_FILIERE));
             String promoStr = result.getString(result.getColumnIndex(COLUMN_PROMO));
+            String niveau = result.getString(result.getColumnIndex(COLUMN_NIVEAU));
             int sync = result.getInt(result.getColumnIndex(COLUMN_SYNC));
             int modif_sync = result.getInt(result.getColumnIndex(COLUMN_MODIF_SYNC));
 
@@ -83,7 +83,7 @@ public class EtudiantDAO {
             Log.i("tag", "on Get All Etudiant ::::: filiereStr : " + filiereStr);
             Filiere filiere = filiereDAO.getFiliere(filiereStr);
 
-            Etudiant etu = new Etudiant(ine, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, sync, modif_sync);
+            Etudiant etu = new Etudiant(ine, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, niveau, sync, modif_sync);
             list.add(etu);
             result.moveToNext();
         }
@@ -119,6 +119,7 @@ public class EtudiantDAO {
             values.put(COLUMN_SPECIALITE, etudiant.getSpecialite().toUpperCase());
         values.put(COLUMN_FILIERE, etudiant.getFiliere().getLibelleFiliere().toUpperCase());
         values.put(COLUMN_PROMO, etudiant.getPromo().getPromo());
+        values.put(COLUMN_NIVEAU, etudiant.getNiveau());
         values.put(COLUMN_SYNC, etudiant.getSync());
         values.put(COLUMN_MODIF_SYNC, etudiant.getModifSync());
         return values;

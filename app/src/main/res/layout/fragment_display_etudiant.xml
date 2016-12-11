@@ -74,6 +74,21 @@
                         android:id="@+id/textviewPromoDis"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="L1"
+                        android:textColor="@color/colorText"
+                        android:textSize="@dimen/dim_normal_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:id="@+id/textviewNiveauDis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="2015-2016"
                         android:textColor="@color/colorText"
                         android:textSize="@dimen/dim_normal_text" />
@@ -86,8 +101,10 @@
             android:layout_height="5dp"></View>
 
         <ScrollView
+            android:id="@+id/scrollViewDis"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="always">
 
             <LinearLayout
                 android:layout_width="match_parent"
