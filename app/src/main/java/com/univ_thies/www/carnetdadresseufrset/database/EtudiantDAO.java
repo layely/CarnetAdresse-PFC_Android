@@ -19,6 +19,7 @@ import java.util.List;
 
 public class EtudiantDAO {
     public static final String COLUMN_INE = "ineEtu";
+    public static final String COLUMN_NUM_DOSSIER = "numDosssierEtu";
     public static final String COLUMN_NOM = "nomEtu";
     public static final String COLUMN_PRENOM = "prenomEtu";
     public static final String COLUMN_DATE_NAISS = "dateNaisEtu";
@@ -64,6 +65,7 @@ public class EtudiantDAO {
         result.moveToFirst();
         while (!result.isAfterLast()) {
             String ine = result.getString(result.getColumnIndex(COLUMN_INE));
+            long numDossier = result.getLong(result.getColumnIndex(COLUMN_NUM_DOSSIER));
             String nom = result.getString(result.getColumnIndex(COLUMN_NOM));
             String prenom = result.getString(result.getColumnIndex(COLUMN_PRENOM));
             char sexe = result.getString(result.getColumnIndex(COLUMN_SEXE)).charAt(0);
@@ -83,7 +85,7 @@ public class EtudiantDAO {
             Log.i("tag", "on Get All Etudiant ::::: filiereStr : " + filiereStr);
             Filiere filiere = filiereDAO.getFiliere(filiereStr);
 
-            Etudiant etu = new Etudiant(ine, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, niveau, sync, modif_sync);
+            Etudiant etu = new Etudiant(ine, numDossier, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, niveau, sync, modif_sync);
             list.add(etu);
             result.moveToNext();
         }
@@ -107,6 +109,7 @@ public class EtudiantDAO {
         }
         ContentValues values = new ContentValues();
         values.put(COLUMN_INE, etudiant.getIne().toUpperCase());
+        values.put(COLUMN_NUM_DOSSIER, etudiant.getNumDossier());
         values.put(COLUMN_NOM, etudiant.getNom().toUpperCase());
         values.put(COLUMN_PRENOM, etudiant.getPrenom().toUpperCase());
         values.put(COLUMN_DATE_NAISS, etudiant.getDateNais().toUpperCase());

@@ -32,6 +32,7 @@ public class EditEtudiantActivity extends AppCompatActivity {
     EditText editTextNom;
     EditText editTextPrenom;
     EditText editTextINE;
+    EditText editTextNumDossier;
     EditText editTextMob1;
     EditText editTextMob2;
     EditText editTextEmail;
@@ -98,6 +99,7 @@ public class EditEtudiantActivity extends AppCompatActivity {
         editTextPrenom = (EditText) findViewById(R.id.editTextPrenomEdit);
         editTextEmail = (EditText) findViewById(R.id.editTextEmailEdit);
         editTextINE = (EditText) findViewById(R.id.editTextINEEdit);
+        editTextNumDossier = (EditText) findViewById(R.id.editTextNumDossierEdit);
         editTextMob1 = (EditText) findViewById(R.id.editTextMob1Edit);
         editTextMob2 = (EditText) findViewById(R.id.editTextMob2Edit);
         editTextAddr = (EditText) findViewById(R.id.editTextAddrEdit);
@@ -192,6 +194,20 @@ public class EditEtudiantActivity extends AppCompatActivity {
             return null;
         }
 
+        String numDossierStr = editTextNumDossier.getText().toString();
+        int numDossier = 0;
+        if (numDossierStr.isEmpty()) {
+            editTextNumDossier.requestFocusFromTouch();
+            return null;
+        } else {
+            try {
+                numDossier = Integer.parseInt(numDossierStr);
+            } catch (Exception e) {
+                editTextNumDossier.requestFocus();
+                return null;
+            }
+        }
+
         long mobile1;
         try {
             mobile1 = Long.parseLong(editTextMob1.getText().toString());
@@ -240,6 +256,7 @@ public class EditEtudiantActivity extends AppCompatActivity {
         etu.setFiliere(filiere);
         etu.setPromo(promo);
         etu.setIne(INE);
+        etu.setNumDossier(numDossier);
         etu.setMobile1(mobile1);
         etu.setMobile2(mobile2);
         etu.setEmail(email);
@@ -266,6 +283,7 @@ public class EditEtudiantActivity extends AppCompatActivity {
         editTextEmail.setText(etudiant.getEmail());
         autoCompleteTextViewPromo.setText(etudiant.getPromo().getPromo());
         editTextINE.setText(etudiant.getIne());
+        editTextNumDossier.setText(Long.toString(etudiant.getNumDossier()));
         editTextAddr.setText(etudiant.getAddresse());
 
         int filiereCount = spinnerFiliere.getAdapter().getCount();

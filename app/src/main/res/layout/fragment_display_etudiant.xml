@@ -139,6 +139,32 @@
                     android:layout_height="1dp"
                     android:background="@color/colorLine"></View>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_dis_line_distance"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textviewNumDossier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="375585435674"
+                        android:textColor="@color/colorText"
+                        android:textSize="@dimen/dim_normal_text" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N° dossier"
+                        android:textColor="@color/colorMicroTextDis" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorLine"></View>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_dis_line_distance">

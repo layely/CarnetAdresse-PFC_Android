@@ -37,6 +37,7 @@ public class DisplayEtudiantFragment extends Fragment {
     private TextView textviewSpecialite;
     private TextView textViewPromo;
     private TextView textViewINE;
+    private TextView textViewNumDossier;
     private TextView textViewMobile1;
     private TextView textViewMobile2;
     private TextView textViewEmail;
@@ -117,6 +118,9 @@ public class DisplayEtudiantFragment extends Fragment {
 
         textViewINE = (TextView) rootView.findViewById(R.id.textviewINEDis);
         textViewINE.setText(etudiant.getIne());
+
+        textViewNumDossier = (TextView) rootView.findViewById(R.id.textviewNumDossier);
+        textViewNumDossier.setText(Long.toString(etudiant.getNumDossier()));
 
         textViewMobile1 = (TextView) rootView.findViewById(R.id.textviewMob1Dis);
         textViewMobile1.setText(String.valueOf(etudiant.getMobile1()));

@@ -12,6 +12,7 @@ public class Etudiant implements Serializable {
 
     public static final String[] niveaux = {"L1", "L2", "L3", "M1", "M2"};
     String ine;
+    long numDossier;
     String nom;
     String prenom;
     String dateNais;
@@ -27,8 +28,9 @@ public class Etudiant implements Serializable {
     int sync;
     int modif_sync;
 
-    public Etudiant(String ine, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
+    public Etudiant(String ine, long numDossier, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
         this.ine = ine;
+        this.numDossier = numDossier;
         this.nom = nom;
         this.dateNais = dateNais;
         this.sexe = sexe;
@@ -43,8 +45,9 @@ public class Etudiant implements Serializable {
         this.modif_sync = modif_sync;
     }
 
-    public Etudiant(String ine, String nom, String prenom, String dateNais, char sexe, long mobile1, long mobile2, String email, String addresse, String specialite, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
+    public Etudiant(String ine, long numDossier, String nom, String prenom, String dateNais, char sexe, long mobile1, long mobile2, String email, String addresse, String specialite, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
         this.ine = ine;
+        this.numDossier = numDossier;
         this.nom = nom;
         this.prenom = prenom;
         this.dateNais = dateNais;
@@ -206,5 +209,13 @@ public class Etudiant implements Serializable {
 
     public void setNiveau(String niveau) {
         this.niveau = niveau;
+    }
+
+    public long getNumDossier() {
+        return numDossier;
+    }
+
+    public void setNumDossier(long numDossier) {
+        this.numDossier = numDossier;
     }
 }
