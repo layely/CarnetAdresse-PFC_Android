@@ -36,11 +36,28 @@ public class Communication {
     }
 
     public static boolean sendMessage(Activity activity, String numDest) {
+        String[] num = {numDest};
+        sendMessage(activity, num);
+        return true;
+    }
+
+    public static boolean sendMessage(Activity activity, String[] numDest) {
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.putExtra("address", numDest);
         sendIntent.putExtra("sms_body", "");
         sendIntent.setType("vnd.android-dir/mms-sms");
-        sendIntent.setData(Uri.parse("smsto:" + numDest));
+
+        StringBuilder uri = new StringBuilder("smsto:");
+        int i = 0;
+        for (String num : numDest) {
+            uri.append(num);
+            if (i < numDest.length - 1) {
+                uri.append(";");
+            }
+            i++;
+        }
+
+        sendIntent.setData(Uri.parse(uri.toString()));
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.SEND_SMS)) {
@@ -61,7 +78,7 @@ public class Communication {
 
     public static boolean sendMultipleMail(Activity activity, String[] recipients) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/html");
+        intent.setType("application/octet-stream");
         intent.putExtra(Intent.EXTRA_EMAIL, recipients);
         intent.putExtra(Intent.EXTRA_SUBJECT, "");
         intent.putExtra(Intent.EXTRA_TEXT, "");

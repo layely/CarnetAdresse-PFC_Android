@@ -1,5 +1,6 @@
 package com.univ_thies.www.carnetdadresseufrset.Adapters;
 
+import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
 
 import java.util.ArrayList;
@@ -17,11 +18,11 @@ public class ModelFiliere {
         this.filiere = filiere;
         selected = false;
         classes = new ArrayList<>();
-        classes.add(new ModelClasse("L1", null));
-        classes.add(new ModelClasse("L2", null));
-        classes.add(new ModelClasse("L3", null));
-        classes.add(new ModelClasse("M1", null));
-        classes.add(new ModelClasse("M2", null));
+        classes.add(new ModelClasse("L1", null, this));
+        classes.add(new ModelClasse("L2", null, this));
+        classes.add(new ModelClasse("L3", null, this));
+        classes.add(new ModelClasse("M1", null, this));
+        classes.add(new ModelClasse("M2", null, this));
     }
 
     public Filiere getFiliere() {
@@ -71,4 +72,10 @@ public class ModelFiliere {
         }
         return allareUnSelected;
     }
+
+    public boolean include(Etudiant etudiant) {
+        return etudiant.getFiliere().getLibelleFiliere().equalsIgnoreCase(this.getFiliere().getLibelleFiliere());
+    }
+
+
 }

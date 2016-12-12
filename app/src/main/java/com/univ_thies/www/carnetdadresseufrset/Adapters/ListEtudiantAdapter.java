@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
  * Created by layely on 11/27/16.
  */
 
-public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> {
+public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements SectionIndexer {
     private String toHighlight = "";
 
     public ListEtudiantAdapter(Context context, List<Etudiant> etudiants) {
@@ -77,5 +78,20 @@ public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> {
 
     public void setToHighlight(String toHighlight) {
         this.toHighlight = toHighlight.toUpperCase();
+    }
+
+    @Override
+    public Object[] getSections() {
+        return new Object[0];
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return 0;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 }

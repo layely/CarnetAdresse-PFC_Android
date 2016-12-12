@@ -1,5 +1,7 @@
 package com.univ_thies.www.carnetdadresseufrset.Adapters;
 
+import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+
 /**
  * Created by layely on 12/9/16.
  */
@@ -8,11 +10,13 @@ public class ModelClasse {
     private String niveau;
     private String option;
     private boolean selected;
+    private ModelFiliere parent;
 
-    public ModelClasse(String niveau, String option) {
+    public ModelClasse(String niveau, String option, ModelFiliere parent) {
         this.niveau = niveau;
         this.option = option;
         selected = false;
+        this.parent = parent;
     }
 
     public String getNiveau() {
@@ -45,5 +49,13 @@ public class ModelClasse {
         if (option != null)
             str += " " + option;
         return str;
+    }
+
+    public boolean include(Etudiant etudiant) {
+        if (this.parent.include(etudiant) && this.getNiveau().equalsIgnoreCase(etudiant.getNiveau())) {
+            if (option == null || option.isEmpty() || option.equalsIgnoreCase(etudiant.getSpecialite()))
+                return true;
+        }
+        return false;
     }
 }

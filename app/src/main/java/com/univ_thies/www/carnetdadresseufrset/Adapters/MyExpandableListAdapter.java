@@ -1,5 +1,6 @@
 package com.univ_thies.www.carnetdadresseufrset.Adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +11,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
-import com.univ_thies.www.carnetdadresseufrset.activities.HomeActivity;
+import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.FiliereDAO;
+import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     FiliereDAO filiereDAO;
+    Context context;
 
     private ArrayList<ModelFiliere> departements = new ArrayList<>();
 
-    public MyExpandableListAdapter() {
-        filiereDAO = new FiliereDAO(HomeActivity.homeContext);
+    public MyExpandableListAdapter(Context context) {
+        this.context = context;
+        filiereDAO = new FiliereDAO(context);
 
         ModelFiliere modelFiliereMI = new ModelFiliere(filiereDAO.getFiliere("MATHEMATIQUE & INFORMATIQUE"));
         ModelFiliere modelFiliereSEE = new ModelFiliere(filiereDAO.getFiliere("EAU & ENVIRONNEMENT"));
@@ -38,9 +44,9 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
         modelClasses.get(4).setNiveau("M1");
         modelClasses.get(4).setOption("GL");
-        modelClasses.add(new ModelClasse("M1", "RT"));
-        modelClasses.add(new ModelClasse("M2", "GL"));
-        modelClasses.add(new ModelClasse("M2", "RT"));
+        modelClasses.add(new ModelClasse("M1", "RT", modelFiliereGI));
+        modelClasses.add(new ModelClasse("M2", "GL", modelFiliereGI));
+        modelClasses.add(new ModelClasse("M2", "RT", modelFiliereGI));
 
         departements.add(modelFiliereGI);
         departements.add(modelFiliereMI);
@@ -192,5 +198,90 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     public void onGroupExpanded(int groupPosition) {
         super.onGroupExpanded(groupPosition);
 
+    }
+
+    public List<Etudiant> getSelectedEtudiants() {
+        EtudiantDAO etudiantDAO = new EtudiantDAO(context);
+        List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
+
+        if (etudiants == null) {
+            return null;
+        }
+
+        if (areAllDepartementsSelected()) {
+            return etudiants;
+        }
+
+        List<Etudiant> selectedEtudiants = new LinkedList<>();
+        List<ModelClasse> checkedClasses = getCheckedClasses();
+
+        for (Etudiant etu : etudiants) {
+            for (ModelFiliere mf : departements) {
+
+                if (mf.isSelected() && mf.include(etu)) {
+                    Log.i("tagexp", "----------------------------------");
+                    Log.i("tagexp", "Departement ::: " + mf.getFiliere().getLibelleFiliere());
+                    Log.i("tagexp", "Dans le if ::::: " + etu.getPrenom() + " " + etu.getNom());
+                    selectedEtudiants.add(etu);
+                } else if (mf.include(etu)) {
+
+                    for (ModelClasse mc : mf.getClasses()) {
+                        if (mc.isSelected() && mc.include(etu)) {
+                            Log.i("tagexp", "----------------------------------");
+                            Log.i("tagexp", "Departement ::: " + mf.getFiliere().getLibelleFiliere());
+                            Log.i("tagexp", "Filiere ::: " + mc.toString());
+                            Log.i("tagexp", "Dans le for ::::: " + etu.getPrenom() + " " + etu.getNom());
+                            selectedEtudiants.add(etu);
+                            break;
+                        }
+                    }
+                }
+
+            }
+        }
+        return selectedEtudiants;
+    }
+
+    public String[] getSelectedEtudiantNumber() {
+        List<String> numbers = new LinkedList<>();
+        for (Etudiant etudiant : getSelectedEtudiants()) {
+            numbers.add(String.valueOf(etudiant.getMobile1()));
+            if (etudiant.getMobile2() != 0) {
+                numbers.add(String.valueOf(etudiant.getMobile2()));
+            }
+        }
+
+        return numbers.toArray(new String[numbers.size()]);
+    }
+
+    public String[] getSelectedEtudiantEmail() {
+        List<String> numbers = new LinkedList<>();
+        for (Etudiant etudiant : getSelectedEtudiants()) {
+            numbers.add((etudiant.getEmail()));
+        }
+
+        return numbers.toArray(new String[numbers.size()]);
+    }
+
+    private boolean areAllDepartementsSelected() {
+        boolean allAreSelected = true;
+        for (ModelFiliere mf : departements) {
+            if (!mf.isAllChildSelected()) {
+                allAreSelected = false;
+                break;
+            }
+        }
+        return allAreSelected;
+    }
+
+    private List<ModelClasse> getCheckedClasses() {
+        List<ModelClasse> modelClasses = new ArrayList<>(25);
+        for (ModelFiliere mf : departements) {
+            for (ModelClasse mc : mf.getClasses()) {
+                if (mc.isSelected())
+                    modelClasses.add(mc);
+            }
+        }
+        return modelClasses;
     }
 }

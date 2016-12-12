@@ -23,7 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.util.Communication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -309,12 +312,33 @@ public class HomeActivity extends AppCompatActivity {
         private View onCreateViewPage3(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_diffusion, container, false);
             ExpandableListView elv = (ExpandableListView) rootView.findViewById(R.id.expandablelistview);
-            MyExpandableListAdapter myExpandableListAdapter = new MyExpandableListAdapter();
+            final MyExpandableListAdapter myExpandableListAdapter = new MyExpandableListAdapter(getContext());
             elv.setAdapter(myExpandableListAdapter);
             OverScrollDecoratorHelper.setUpOverScroll(elv);
 //            NestedScrollingChildHelper nsch = new NestedScrollingChildHelper(elv);
 //            nsch.setNestedScrollingEnabled(true);
             TextView textView = (TextView) rootView.findViewById(R.id.textview_testdiffusion);
+
+            final RadioButton rdbtnSMS = (RadioButton) rootView.findViewById(R.id.radioSMSDiff);
+            final RadioButton rdbtnEmail = (RadioButton) rootView.findViewById(R.id.radioEmailDiff);
+
+            final ImageButton imgBtnSend = (ImageButton) rootView.findViewById(R.id.imageBntSendDiff);
+
+            imgBtnSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (myExpandableListAdapter.getSelectedEtudiants() == null || myExpandableListAdapter.getSelectedEtudiants().isEmpty())
+                        return;
+
+                    else if (rdbtnSMS.isChecked()) {
+                        Communication.sendMessage(PlaceholderFragment.this.getActivity(), myExpandableListAdapter.getSelectedEtudiantNumber());
+
+                    } else if (rdbtnEmail.isChecked()) {
+                        Communication.sendMultipleMail(PlaceholderFragment.this.getActivity(), myExpandableListAdapter.getSelectedEtudiantEmail());
+                        return;
+                    }
+                }
+            });
             return rootView;
         }
 
