@@ -4,20 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
-
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +44,7 @@ public class DisplayEtudiantFragment extends Fragment {
     private TextView textViewAdresse;
     private TextView textViewNiveau;
 
-    private ScrollView scrollView;
+    private NestedScrollView scrollView;
 
     private Etudiant etudiant;
     private OnFragmentInteractionListener mListener;
@@ -93,9 +91,11 @@ public class DisplayEtudiantFragment extends Fragment {
     }
 
     private void initWidgets(View rootView) {
-        scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewDis);
+        scrollView = (NestedScrollView) rootView.findViewById(R.id.scrollViewDis);
 
-        OverScrollDecoratorHelper.setUpStaticOverScroll(scrollView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+//        View viewInsideScroll = rootView.findViewById(R.id.viewIncideScrollviewDis);
+
+//        OverScrollDecoratorHelper.setUpStaticOverScroll(viewInsideScroll, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         textViewNomPrenom = (TextView) (rootView.findViewById(R.id.textviewNomPrenomDis));
         textViewNomPrenom.setText(etudiant.getPrenom() + " " + etudiant.getNom());

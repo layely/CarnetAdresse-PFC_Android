@@ -100,13 +100,14 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"></View>
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollViewDis"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="always">
 
             <LinearLayout
+                android:id="@+id/viewIncideScrollviewDis"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -200,7 +201,10 @@
                             android:id="@+id/imageBtnCallMob1"
                             android:layout_width="@dimen/dim_dis_line_distance"
                             android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
                             android:background="?android:selectableItemBackground"
+                            android:padding="7dp"
+                            android:scaleType="fitCenter"
                             android:src="@mipmap/ic_call" />
 
                         <View
@@ -213,8 +217,11 @@
                             android:id="@+id/imageBtnMessMob1"
                             android:layout_width="@dimen/dim_dis_line_distance"
                             android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
                             android:background="?android:selectableItemBackground"
-                            android:src="@mipmap/ic_message" />
+                            android:padding="12dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_message_green_nobg" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -259,7 +266,10 @@
                             android:id="@+id/imageBtnCallMob2"
                             android:layout_width="@dimen/dim_dis_line_distance"
                             android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
                             android:background="?android:selectableItemBackground"
+                            android:padding="7dp"
+                            android:scaleType="fitCenter"
                             android:src="@mipmap/ic_call" />
 
                         <View
@@ -272,8 +282,11 @@
                             android:id="@+id/imageBtnMessMob2"
                             android:layout_width="@dimen/dim_dis_line_distance"
                             android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
                             android:background="?android:selectableItemBackground"
-                            android:src="@mipmap/ic_message" />
+                            android:padding="12dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_message_green_nobg1" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -323,8 +336,11 @@
                             android:id="@+id/imageBtnMail"
                             android:layout_width="@dimen/dim_dis_line_distance"
                             android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
                             android:background="?android:selectableItemBackground"
-                            android:src="@mipmap/ic_mail_gray" />
+                            android:padding="12dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_mail_gmail" />
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -408,7 +424,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
         <View
             android:layout_width="match_parent"

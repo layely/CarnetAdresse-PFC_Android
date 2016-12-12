@@ -54,6 +54,11 @@ CREATE TABLE Promo_supprimee (
 	promo 			TEXT PRIMARY KEY NOT NULL
 );
 
+CREATE TABLE Util (
+    keyUtil         TEXT PRIMARY KEY NOT NULL,
+    valueUtil       TEXT
+);
+
 INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2013-2014", 1, 1);
 INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2014-2015", 1, 1);
 
@@ -61,6 +66,8 @@ INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("MATHEMATIQUE & INFORMATIQUE", "", 1, 1);
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("EAU & ENVIRONNEMENT", "", 1, 1);
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("PHYSIQUE & CHIMIE", "", 1, 1);
+
+
 
 INSERT INTO Etudiant (ineEtu, numDosssierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
 adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
@@ -124,3 +131,7 @@ INSERT INTO Etudiant (ineEtu, numDosssierEtu, nomEtu, prenomEtu, sexeEtu, dateNa
 adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
     VALUES("N4568907979SN", "87464335787768", "NDOUR", "VIVIANE", 'F', "12/12/1995", 777069834, 768639273, "ndourvivi@gmail.com",
     "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 1);
+
+
+
+INSERT INTO Util (keyUtil, valueUtil) values ("lastNumSynced", "0");
