@@ -19,7 +19,7 @@ import java.util.List;
 
 public class EtudiantDAO {
     public static final String COLUMN_INE = "ineEtu";
-    public static final String COLUMN_NUM_DOSSIER = "numDosssierEtu";
+    public static final String COLUMN_NUM_DOSSIER = "numDossierEtu";
     public static final String COLUMN_NOM = "nomEtu";
     public static final String COLUMN_PRENOM = "prenomEtu";
     public static final String COLUMN_DATE_NAISS = "dateNaisEtu";

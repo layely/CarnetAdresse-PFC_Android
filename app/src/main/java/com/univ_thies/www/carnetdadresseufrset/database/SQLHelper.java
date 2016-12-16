@@ -21,6 +21,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String TABLE_ETUDIANT_SUP = "Etudiant_supprime";
     public static final String TABLE_FILIERE_SUP = "Filiere_supprimee";
     public static final String TABLE_PROMO_SUP = "Promo_supprimee";
+    public static final String TABLE_UTIL = "Util";
 
     private final static String databaseName = "carnetadresse.db";//name of database
     private final static int VersionDataBase = 2;//Verion of database

@@ -81,7 +81,7 @@ public class PromoDAO {
                 " WHERE " + COLUMN_PROMO + "='" + promo.toUpperCase() + "'", null);
 
         List<Promo> list = asList(result);
-        if (list.size() > 1)
+        if (list.size() > 0)
             return list.get(0);
         return null;
     }

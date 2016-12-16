@@ -15,6 +15,7 @@ import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 
 import java.util.List;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 /**
@@ -22,7 +23,10 @@ import java.util.regex.Pattern;
  */
 
 public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements SectionIndexer {
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_SEPARATOR = 1;
     private String toHighlight = "";
+    private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
 
     public ListEtudiantAdapter(Context context, List<Etudiant> etudiants) {
         super(context, R.layout.row_list_etudiant, etudiants);

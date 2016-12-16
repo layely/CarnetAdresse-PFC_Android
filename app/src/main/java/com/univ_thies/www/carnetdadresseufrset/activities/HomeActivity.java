@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
@@ -34,6 +35,7 @@ import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.server_sync.FetchEtudiantTask;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
 
 import java.util.ArrayList;
@@ -94,8 +96,8 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+//                Snackbar mySnackbar = Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null);
                 Intent i = new Intent(HomeActivity.this, EditEtudiantActivity.class);
                 startActivity(i);
             }
@@ -280,17 +282,27 @@ public class HomeActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.textviewUserName);
             final ListView listView = (ListView) rootView.findViewById(R.id.listview_etudiant);
+            final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
 
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
-            List<Etudiant> listEtudiants = etudiantDAO.getAllEtudiants();
+            final List<Etudiant> listEtudiants = etudiantDAO.getAllEtudiants();
 
-            listView.setAdapter(new ListEtudiantAdapter(homeContext, listEtudiants));
+            listView.setAdapter(new ListEtudiantAdapter(this.getContext(), listEtudiants));
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     listItemClicked(view, (Etudiant) listView.getItemAtPosition(position));
+                }
+            });
+
+            swipeRefreshLayout.setColorSchemeResources(R.color.AppBarColor);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    new FetchEtudiantTask(PlaceholderFragment.this.getContext(), listView, fab).execute();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
 
@@ -305,7 +317,8 @@ public class HomeActivity extends AppCompatActivity {
 //            final RecycleViewAdapter mAdapter = new RecycleViewAdapter(listEtudiants);
 //            rv.setAdapter(mAdapter);
 
-
+            Log.i("tagasync", "about to instanciate");
+            new FetchEtudiantTask(this.getContext(), listView, fab).execute();
             return rootView;
         }
 
