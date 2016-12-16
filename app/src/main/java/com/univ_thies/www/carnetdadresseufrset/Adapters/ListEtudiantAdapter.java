@@ -25,54 +25,103 @@ import java.util.regex.Pattern;
 public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements SectionIndexer {
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
+    List<Etudiant> etudiants;
     private String toHighlight = "";
     private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
 
     public ListEtudiantAdapter(Context context, List<Etudiant> etudiants) {
         super(context, R.layout.row_list_etudiant, etudiants);
+        this.etudiants = etudiants;
     }
+
+    public void addItem(final Etudiant etudiant) {
+        etudiants.add(etudiant);
+        notifyDataSetChanged();
+    }
+
+    public void addSectionHeaderItem(final String item) {
+        sectionHeader.add(etudiants.size() - 1);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return sectionHeader.contains(position) ? TYPE_SEPARATOR : TYPE_ITEM;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getCount() {
+        return etudiants.size();
+    }
+
+    @Override
+    public Etudiant getItem(int position) {
+        return etudiants.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        if (row == null) {
-            LayoutInflater li = LayoutInflater.from(parent.getContext());
-            row = li.inflate(R.layout.row_list_etudiant, parent, false);
-        }
+        int rowType = getItemViewType(position);
 
-        TextView textviewNomPrenom = (TextView) row.findViewById(R.id.textviewNomPrenom);
-        TextView textviewINE = (TextView) row.findViewById(R.id.textviewINE);
-        TextView textviewFilProm = (TextView) row.findViewById(R.id.textviewFilPro);
+        if (rowType == TYPE_ITEM) {
+            if (row == null) {
+                LayoutInflater li = LayoutInflater.from(parent.getContext());
+                row = li.inflate(R.layout.row_list_etudiant, parent, false);
+            }
 
-        Etudiant etudiant = getItem(position);
+            TextView textviewNomPrenom = (TextView) row.findViewById(R.id.textviewNomPrenom);
+            TextView textviewINE = (TextView) row.findViewById(R.id.textviewINE);
+            TextView textviewFilProm = (TextView) row.findViewById(R.id.textviewFilPro);
 
-        String nomPrenom = etudiant.getPrenom() + " " + etudiant.getNom();
-        String[] splited = nomPrenom.split(Pattern.quote(toHighlight));
-        String toHightlightStyled = "<font size=\"\" color=\"#ff0000\" face=\"\">" + toHighlight + "</font>";
-        StringBuilder toHTML = new StringBuilder();
-        for (int i = 0; i < splited.length; i++) {
-            String str = splited[i];
-            Log.i("tag", "i ======= " + i + "/" + (splited.length - 1));
-            Log.i("tag", "Str ====&" + str + "&");
+            Etudiant etudiant = getItem(position);
 
-            toHTML.append(str);
-            if (i == splited.length - 1 && !str.equalsIgnoreCase(toHighlight)) ;
-            else
+            String nomPrenom = etudiant.getPrenom() + " " + etudiant.getNom();
+            String[] splited = nomPrenom.split(Pattern.quote(toHighlight));
+            String toHightlightStyled = "<font size=\"\" color=\"#ff0000\" face=\"\">" + toHighlight + "</font>";
+            StringBuilder toHTML = new StringBuilder();
+            for (int i = 0; i < splited.length; i++) {
+                String str = splited[i];
+                Log.i("tag", "i ======= " + i + "/" + (splited.length - 1));
+                Log.i("tag", "Str ====&" + str + "&");
+
+                toHTML.append(str);
+                if (i == splited.length - 1 && !str.equalsIgnoreCase(toHighlight)) ;
+                else
+                    toHTML.append(toHightlightStyled);
+            }
+            String subStr = nomPrenom.substring(nomPrenom.length() - toHighlight.length());
+            Log.i("tag", "SubStr :::::::&" + subStr);
+            if (subStr.equalsIgnoreCase(toHighlight))
                 toHTML.append(toHightlightStyled);
-        }
-        String subStr = nomPrenom.substring(nomPrenom.length() - toHighlight.length());
-        Log.i("tag", "SubStr :::::::&" + subStr);
-        if (subStr.equalsIgnoreCase(toHighlight))
-            toHTML.append(toHightlightStyled);
 
-        Log.i("tag", "::::::: toHighlightStr: " + toHighlight.toString());
-        Log.i("tag", "::::::: toHLML: " + toHTML.toString());
+            Log.i("tag", "::::::: toHighlightStr: " + toHighlight.toString());
+            Log.i("tag", "::::::: toHLML: " + toHTML.toString());
 //        textviewNomPrenom.setText(Html.fromHtml("<font size=\"\" color=\"#FF0000\" face=\"\">Laye</font> Ly"));
-        textviewNomPrenom.setText(Html.fromHtml(toHTML.toString()));
-        textviewINE.setText(etudiant.getIne());
-        textviewFilProm.setText(etudiant.getFiliere().getLibelleFiliere() + " " + etudiant.getPromo().toString());
+            textviewNomPrenom.setText(Html.fromHtml(toHTML.toString()));
+            textviewINE.setText(etudiant.getIne());
+            textviewFilProm.setText(etudiant.getFiliere().getLibelleFiliere() + " " + etudiant.getPromo().toString());
+        } else if (rowType == TYPE_SEPARATOR) {
+            if (row == null) {
+                LayoutInflater li = LayoutInflater.from(parent.getContext());
+                row = li.inflate(R.layout.list_header, parent, false);
+            }
 
+            row = row.findViewById(R.id.textview_list_header);
+
+        }
         return row;
     }
 
