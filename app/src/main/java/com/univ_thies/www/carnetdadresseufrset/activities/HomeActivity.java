@@ -317,7 +317,7 @@ public class HomeActivity extends AppCompatActivity {
 //            final RecycleViewAdapter mAdapter = new RecycleViewAdapter(listEtudiants);
 //            rv.setAdapter(mAdapter);
 
-            Log.i("tagasync", "about to instanciate");
+//            Log.i("tagasync", "about to instanciate");
             new FetchEtudiantTask(this.getContext(), listView, fab).execute();
             return rootView;
         }

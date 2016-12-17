@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,7 +59,9 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         Log.i("tagasync", ":::::::::doInBackground - start");
-        HttpURLConnection conn = ServerConnection.getConnection(PHP_FILE, utilDAO);
+        HashMap<String, String> paramsMap = new HashMap<>(1);
+        paramsMap.put(UtilDAO.FIELD_LAST_NUM_SYNCED, Integer.toString(utilDAO.getLastNumSynced()));
+        HttpURLConnection conn = ServerConnection.getConnection(PHP_FILE, paramsMap);
         Log.i("tagasync", "::::::URL:::::::::" + conn.getURL().toString());
         Log.i("tagasync", "::::::::: connect fired");
         try {

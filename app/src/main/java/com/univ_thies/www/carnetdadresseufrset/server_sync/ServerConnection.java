@@ -3,8 +3,6 @@ package com.univ_thies.www.carnetdadresseufrset.server_sync;
 import android.net.Uri;
 import android.util.Log;
 
-import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
 
 /**
  * Created by layely on 12/16/16.
@@ -24,18 +23,19 @@ public class ServerConnection {
 
     private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
 
-    public static HttpURLConnection getConnection(String phpfile, UtilDAO utilDAO) {
-
+    public static HttpURLConnection getConnection(String phpfile, HashMap<String, String> params) {
         HttpURLConnection conn = null;
         URL url = null;
 
         try {
 //            url = new URL(URLstr);
-            url = new URL(Uri.parse(URLstr)
-                    .buildUpon()
-                    .appendPath(phpfile)
-                    .appendQueryParameter(UtilDAO.FIELD_LAST_NUM_SYNCED, Integer.toString(utilDAO.getLastNumSynced()))
-                    .build().toString());
+            Uri.Builder urlBuider = Uri.parse(URLstr).buildUpon().appendPath(phpfile);
+            for (String key : params.keySet()) {
+                urlBuider.appendQueryParameter(key, params.get(key));
+            }
+//                    .appendQueryParameter(UtilDAO.FIELD_LAST_NUM_SYNCED, Integer.toString(utilDAO.getLastNumSynced()))
+
+            url = new URL(urlBuider.build().toString());
             Log.i("tagasync", ":::::::::url instance");
 
             Log.i("tagasync", ":::::::::open connection start");

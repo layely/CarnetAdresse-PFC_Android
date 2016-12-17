@@ -131,4 +131,22 @@ public class EtudiantDAO {
     public void modify(Etudiant etudiant, Etudiant newEtu) {
         //TODO
     }
+
+    public List<Etudiant> getNewEtudiantsUnsynchronizedToServer() {
+        List<Etudiant> list = null;
+
+        String query = "SELECT * FROM " + SQLHelper.TABLE_ETUDIANT + " WHERE " + COLUMN_SYNC + "='" + "1' ORDER BY " + COLUMN_PRENOM;
+
+        Cursor result = db.rawQuery(query, null);
+        list = asList(result);
+        result.close();
+        return list;
+    }
+
+    public void setSynced(Etudiant etu) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_SYNC, 0);
+
+        db.update(SQLHelper.TABLE_ETUDIANT, cv, COLUMN_INE + "='" + etu.getIne().toUpperCase() + "'", null);
+    }
 }
