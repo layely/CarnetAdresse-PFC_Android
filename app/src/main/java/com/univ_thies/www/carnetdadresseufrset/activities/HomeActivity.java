@@ -35,11 +35,13 @@ import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.server_sync.AddEtudiantTask;
 import com.univ_thies.www.carnetdadresseufrset.server_sync.FetchEtudiantTask;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -280,15 +282,17 @@ public class HomeActivity extends AppCompatActivity {
 
         private View onCreateViewPage2(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.textviewUserName);
+//            TextView textView = (TextView) rootView.findViewById(R.id.textviewUserName);
             final ListView listView = (ListView) rootView.findViewById(R.id.listview_etudiant);
             final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
 
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
             final List<Etudiant> listEtudiants = etudiantDAO.getAllEtudiants();
 
             listView.setAdapter(new ListEtudiantAdapter(this.getContext(), listEtudiants));
+            listView.setFastScrollAlwaysVisible(true);
+            listView.setFastScrollEnabled(true);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -301,8 +305,24 @@ public class HomeActivity extends AppCompatActivity {
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    new FetchEtudiantTask(PlaceholderFragment.this.getContext(), listView, fab).execute();
-                    swipeRefreshLayout.setRefreshing(false);
+                    final FetchEtudiantTask fetchEtudiantTask = new FetchEtudiantTask(PlaceholderFragment.this.getContext(), listView, fab, swipeRefreshLayout);
+                    fetchEtudiantTask.execute();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                fetchEtudiantTask.get();
+                                new AddEtudiantTask(PlaceholderFragment.this.getContext()).execute();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).start();
+
                 }
             });
 
@@ -318,7 +338,7 @@ public class HomeActivity extends AppCompatActivity {
 //            rv.setAdapter(mAdapter);
 
 //            Log.i("tagasync", "about to instanciate");
-            new FetchEtudiantTask(this.getContext(), listView, fab).execute();
+//            new FetchEtudiantTask(this.getContext(), listView, fab).execute();
             return rootView;
         }
 

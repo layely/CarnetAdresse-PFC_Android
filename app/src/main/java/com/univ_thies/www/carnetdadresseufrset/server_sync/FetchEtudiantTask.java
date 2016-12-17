@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -37,14 +38,15 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
     private final String PHP_FILE = "fetch_student.php";
     private List<Etudiant> newEtudiants;
     private Snackbar snackbar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private Context context;
     private EtudiantDAO etudiantDAO;
     private UtilDAO utilDAO;
     private ListView listView;
     private HttpURLConnection conn;
 
-
-    public FetchEtudiantTask(Context context, ListView listView, View view) {
+    public FetchEtudiantTask(Context context, ListView listView, View view, SwipeRefreshLayout swipeRefreshLayout) {
         this.context = context;
         etudiantDAO = new EtudiantDAO(context);
         utilDAO = new UtilDAO(context);
@@ -52,13 +54,14 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
         snackbar = Snackbar.make(view, "Connection ...", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Action", null);
         Log.i("tagasync", "instaciation over");
+        this.swipeRefreshLayout = swipeRefreshLayout;
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected Void doInBackground(Void... params) {
-        Log.i("tagasync", ":::::::::doInBackground - start");
+        Log.i("tagasync", ":::::::::Fetch doInBackground - start");
         HashMap<String, String> paramsMap = new HashMap<>(1);
         paramsMap.put(UtilDAO.FIELD_LAST_NUM_SYNCED, Integer.toString(utilDAO.getLastNumSynced()));
         HttpURLConnection conn = ServerConnection.getConnection(PHP_FILE, paramsMap);
@@ -158,11 +161,14 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
             adapter.addAll(etudiantDAO.getAllEtudiants());
         }
 
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
-        snackbar.setText(values[0]);
+        if (snackbar != null)
+            snackbar.setText(values[0]);
     }
 
     @Override

@@ -6,7 +6,7 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="dim_normal_text">15dp</dimen>
     <dimen name="dim_title_text">28dp</dimen>
-    <dimen name="dim_micro_text">15dp</dimen>
+    <dimen name="dim_micro_text">12dp</dimen>
     <dimen name="dim_dis_line_distance">60dp</dimen>
     <dimen name="dim_name_list">20dp</dimen>
     <dimen name="dim_text2">20dp</dimen>

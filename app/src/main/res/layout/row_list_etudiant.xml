@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="0dp"
     app:cardUseCompatPadding="true">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,13 +19,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_marginTop="10dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:id="@+id/textviewNomPrenom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="bottom"
                 android:text="LY Abdoulaye Oumar"
                 android:textColor="@color/colorText"
                 android:textSize="@dimen/dim_name_list" />
@@ -33,7 +35,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:orientation="vertical">
 
             <TextView
@@ -41,17 +43,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Promo 2014-2015"
-                android:textColor="@color/colorMicroTextDis" />
+                android:textColor="@color/colorMicroTextDis"
+                android:textSize="@dimen/dim_micro_text" />
 
             <TextView
                 android:id="@+id/textviewINE"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="ine here"
-                android:textColor="@color/colorMicroTextDis" />
+                android:textColor="@color/colorMicroTextDis"
+                android:textSize="@dimen/dim_micro_text" />
 
 
         </LinearLayout>
 
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="@color/AppBarColor" />-->
     </LinearLayout>
+
 </android.support.v7.widget.CardView>

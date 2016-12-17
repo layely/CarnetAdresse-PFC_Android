@@ -75,11 +75,11 @@ adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEt
     "HLM Gr Yoff", "MATHEMATIQUE & INFORMATIQUE", "2013-2014", "GL", "L1", 1, 0);
 INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
 adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu,syncEtu, modifSyncEtu)
-    VALUES("N04762420131SN", "55689674798", "GUEYE", "OUMAR", 'm', "12/12/1995", 774537699, 0, "ogueye@gmail.com",
+    VALUES("N04762420131SN", "55689674798", "GUEYE", "OUMAR", 'M', "12/12/1995", 774537699, 0, "ogueye@gmail.com",
     "Diakhao", "INFORMATIQUE", "2014-2015", "", "L2",1, 0);
 INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
 adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
-    VALUES("N07763425132SN", "7654689898", "SOW", "ABOU", 'm', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    VALUES("N07763425132SN", "7654689898", "SOW", "ABOU", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
     "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
 
 INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
