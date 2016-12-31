@@ -14,6 +14,8 @@ import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.FiliereDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.objects.ModelClasse;
+import com.univ_thies.www.carnetdadresseufrset.objects.ModelFiliere;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

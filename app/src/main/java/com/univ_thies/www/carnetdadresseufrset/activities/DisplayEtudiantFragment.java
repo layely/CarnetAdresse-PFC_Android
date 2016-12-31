@@ -33,7 +33,6 @@ public class DisplayEtudiantFragment extends Fragment {
     private TextView textViewNomPrenom;
     private TextView textViewFiliere;
     private TextView textviewSpecialite;
-    private TextView textViewPromo;
     private TextView textViewINE;
     private TextView textViewNumDossier;
     private TextView textViewMobile1;
@@ -47,15 +46,21 @@ public class DisplayEtudiantFragment extends Fragment {
     private NestedScrollView scrollView;
 
     private Etudiant etudiant;
-    private OnFragmentInteractionListener mListener;
 
+    private OnFragmentInteractionListener mListener;
     private ImageButton btnCall1;
+
     private ImageButton btnMess1;
     private ImageButton btnCAll2;
     private ImageButton btnMess2;
     private ImageButton btnMail;
 
+    private View layoutSpecialite;
+    private View layoutINE;
+    private View layoutMob1;
+    private View layoutAdresse;
     private RelativeLayout layoutMob2;
+    private View rootView;
 
     public DisplayEtudiantFragment() {
         // Required empty public constructor
@@ -85,13 +90,26 @@ public class DisplayEtudiantFragment extends Fragment {
             Toast.makeText(this.getContext(), etudiant.getNom(), Toast.LENGTH_LONG).show();
 //            TextView test = (TextView) rootView.findViewById(R.id.textviewNomPrenomDis);
 //            test.setText("Hello");
+            this.rootView = rootView;
             initWidgets(rootView);
         }
         return rootView;
     }
 
+    public void reload(Etudiant etudiant) {
+        this.etudiant = etudiant;
+        if (rootView != null) {
+            initWidgets(rootView);
+        }
+    }
+
     private void initWidgets(View rootView) {
         scrollView = (NestedScrollView) rootView.findViewById(R.id.scrollViewDis);
+
+        layoutSpecialite = rootView.findViewById(R.id.layout_specialiteDis);
+        layoutINE = rootView.findViewById(R.id.layout_ineDis);
+        layoutMob1 = rootView.findViewById(R.id.layout_mob1Dis);
+        layoutAdresse = rootView.findViewById(R.id.layout_adresseDis);
 
 //        View viewInsideScroll = rootView.findViewById(R.id.viewIncideScrollviewDis);
 
@@ -106,24 +124,27 @@ public class DisplayEtudiantFragment extends Fragment {
 
         textViewNiveau = (TextView) (rootView.findViewById(R.id.textviewNiveauDis));
         textViewNiveau.setText(etudiant.getNiveau());
-        
+
         textviewSpecialite = (TextView) (rootView.findViewById(R.id.textviewSpeDis));
-        if (etudiant.getSpecialite() == null)
-            textviewSpecialite.setVisibility(View.GONE);
+        if (etudiant.getSpecialite() == null || etudiant.getSpecialite().isEmpty())
+            layoutSpecialite.setVisibility(View.GONE);
         else
             textviewSpecialite.setText(etudiant.getSpecialite());
-        textViewPromo = (TextView) rootView.findViewById(R.id.textviewPromoDis);
-        if (etudiant.getPromo() != null)
-            textViewPromo.setText(etudiant.getPromo().getPromo());
 
         textViewINE = (TextView) rootView.findViewById(R.id.textviewINEDis);
-        textViewINE.setText(etudiant.getIne());
+        if (etudiant.getIne() == null || etudiant.getIne().isEmpty())
+            layoutINE.setVisibility(View.GONE);
+        else
+            textViewINE.setText(etudiant.getIne());
 
         textViewNumDossier = (TextView) rootView.findViewById(R.id.textviewNumDossier);
         textViewNumDossier.setText(Long.toString(etudiant.getNumDossier()));
 
         textViewMobile1 = (TextView) rootView.findViewById(R.id.textviewMob1Dis);
-        textViewMobile1.setText(String.valueOf(etudiant.getMobile1()));
+        if (etudiant.getMobile1() == 0)
+            layoutMob1.setVisibility(View.GONE);
+        else
+            textViewMobile1.setText(String.valueOf(etudiant.getMobile1()));
 
         textViewMobile2 = (TextView) rootView.findViewById(R.id.textviewMob2Dis);
         textViewMobile2.setText(String.valueOf(etudiant.getMobile2()));
@@ -135,7 +156,10 @@ public class DisplayEtudiantFragment extends Fragment {
         textViewSexe.setText(String.valueOf(etudiant.getSexe()));
 
         textViewAdresse = (TextView) rootView.findViewById(R.id.textviewAddrDis);
-        textViewAdresse.setText(etudiant.getAddresse());
+        if (etudiant.getAddresse() == null || etudiant.getIne().isEmpty())
+            layoutAdresse.setVisibility(View.GONE);
+        else
+            textViewAdresse.setText(etudiant.getAddresse());
 
         textViewDateNais = (TextView) rootView.findViewById(R.id.textviewDateNaisDis);
         textViewDateNais.setText(etudiant.getDateNais());

@@ -34,9 +34,9 @@ import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
 import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
+import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
-import com.univ_thies.www.carnetdadresseufrset.server_sync.AddEtudiantTask;
-import com.univ_thies.www.carnetdadresseufrset.server_sync.FetchEtudiantTask;
+import com.univ_thies.www.carnetdadresseufrset.server_sync.ServerConnection;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
 
 import java.util.ArrayList;
@@ -51,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     public static Context homeContext;
     public static FloatingActionButton fab;
     private static EtudiantDAO etudiantDAO;
+    private static UtilDAO utilDAO;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -75,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
 
         homeContext = this;
         etudiantDAO = new EtudiantDAO(this);
+        utilDAO = new UtilDAO(this);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -105,6 +107,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        utilDAO.incrementNumberOfLaunch();
     }
 
     @Override
@@ -305,23 +308,14 @@ public class HomeActivity extends AppCompatActivity {
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    final FetchEtudiantTask fetchEtudiantTask = new FetchEtudiantTask(PlaceholderFragment.this.getContext(), listView, fab, swipeRefreshLayout);
-                    fetchEtudiantTask.execute();
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                fetchEtudiantTask.get();
-                                new AddEtudiantTask(PlaceholderFragment.this.getContext()).execute();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }).start();
+                    try {
+                        ServerConnection.executeUpdate(PlaceholderFragment.this.getContext(), listView, fab, swipeRefreshLayout);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });

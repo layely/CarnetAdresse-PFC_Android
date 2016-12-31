@@ -48,7 +48,8 @@
             android:layout_height="wrap_content"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:overScrollMode="always" />
+            android:overScrollMode="always"
+            android:scrollbarStyle="outsideOverlay" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

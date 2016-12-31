@@ -1,0 +1,137 @@
+CREATE TABLE Etudiant (
+	ineEtu 			TEXT PRIMARY KEY NOT NULL,
+	numDossierEtu  INT NOT NULL,
+	nomEtu 			TEXT NOT NULL,
+	prenomEtu 		TEXT NOT NULL,
+    sexeEtu         CHAR NOT NULL,
+    dateNaisEtu     TEXT NOT NULL,
+	mobile1Etu 		INT NOT NULL,
+	mobile2Etu		INT,
+	emailEtu 		TEXT NOT NULL,
+	adresseEtu		TEXT NOT NULL,
+	filiereEtu		TEXT NOT NULL,
+	promoEtu		TEXT NOT NULL,
+	specialiteEtu	TEXT,
+	niveauEtu       TEXT NOT NULL,
+	syncEtu 		INT NOT NULL,
+	modifSyncEtu 	INT NOT NULL
+);
+
+CREATE TABLE Filiere (
+	libeleFil 		TEXT PRIMARY KEY NOT NULL,
+	specialitesFil 	TEXT,
+	syncFil 		INT,
+	modifSyncFil 	INT
+);
+
+CREATE TABLE Promo (
+	promo 			TEXT PRIMARY KEY NOT NULL,
+	syncProm 		INT,
+	modifSyncProm 	INT
+);
+
+CREATE TABLE Etudiant_supprime (
+	ineEtuSup 			TEXT PRIMARY KEY NOT NULL,
+	numDossierEtuSup   INT NOT NULL,
+	nomEtuSup 			TEXT NOT NULL,
+	prenomEtuSup 		TEXT NOT NULL,
+	mobile1EtuSup 		INT NOT NULL,
+	mobile2EtuSup		INT,
+	emailEtuSup 		TEXT,
+	adresseEtuSup		TEXT,
+	filiereEtuSup		TEXT,
+	promoEtuSup			TEXT,
+	specialiteEtuSup	TEXT,
+	niveauEtuSup        TEXT
+);
+
+CREATE TABLE Filiere_supprimee (
+	libeleFilSup 		TEXT PRIMARY KEY NOT NULL,
+	specialitesFilSup 	TEXT
+);
+
+CREATE TABLE Promo_supprimee (
+	promo 			TEXT PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE Util (
+    keyUtil         TEXT PRIMARY KEY NOT NULL,
+    valueUtil       TEXT
+);
+
+INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2013-2014", 1, 1);
+INSERT INTO Promo (promo, syncProm, modifSyncProm) VALUES ("2014-2015", 1, 1);
+
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("INFORMATIQUE", "RT|GL", 1, 0);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("MATHEMATIQUE & INFORMATIQUE", "", 1, 0);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("EAU & ENVIRONNEMENT", "", 1, 0);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("PHYSIQUE & CHIMIE", "", 1, 0);
+
+
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N11762720131SN", "3467809788", "LY", "ABDOULAYE OUMAR", 'M', "12/12/1995",773203934, 768928399, "enodeb@gmail.com",
+    "HLM Gr Yoff", "MATHEMATIQUE & INFORMATIQUE", "2013-2014", "GL", "L1", 1, 0);
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu,syncEtu, modifSyncEtu)
+    VALUES("N04762420131SN", "55689674798", "GUEYE", "OUMAR", 'M', "12/12/1995", 774537699, 0, "ogueye@gmail.com",
+    "Diakhao", "INFORMATIQUE", "2014-2015", "", "L2",1, 0);
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763425132SN", "7654689898", "SOW", "ABOU", 'M', "12/12/1995", 777069834, 768639273, "asow@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763424567SN", "134680976554", "BA", "SEYDOU", 'M', "12/12/1995", 777069834, 768639273, "baseydou@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N077634254567SN", "1346744877", "LY", "HAMADY", 'M', "12/12/1995", 777069834, 768639273, "lyham@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N0776346789SN", "4698509865", "SY", "HAROUNA", 'M', "12/12/1995", 777069834, 768639273, "syharouna@gmail.com",
+        "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+  adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+     VALUES("N0779765132SN", "12345675267", "FALL", "PAPE BABACAR", 'M', "12/12/1995", 777069834, 768639273, "pbf@gmail.com",
+            "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N07763576442SN", "097543466765", "BADIANE", "BAYE MBAYE", 'M', "12/12/1995", 777069834, 768639273, "badianebm@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N0776399702SN", "876543575436", "KAMA", "MBATHIO", 'F', "12/12/1995", 777069834, 768639273, "kamembathio@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N077634567832SN", "98757523455", "NDIR", "KINE MBODJ", 'F', "12/12/1995", 777069834, 768639273, "ndirKine@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N056634455632SN", "574346797656675", "GUEYE", "IDRISSA GANA", 'M', "12/12/1995", 777069834, 768639273, "gueyeidi@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N078636786132SN", "23476686446798", "KANE", "MARIEME", 'F', "12/12/1995", 777069834, 768639273, "kane.mariem@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+INSERT INTO Etudiant (ineEtu, numDossierEtu, nomEtu, prenomEtu, sexeEtu, dateNaisEtu, mobile1Etu, mobile2Etu, emailEtu,
+adresseEtu, filiereEtu, promoEtu, specialiteEtu, niveauEtu, syncEtu, modifSyncEtu)
+    VALUES("N4568907979SN", "87464335787768", "NDOUR", "VIVIANE", 'F', "12/12/1995", 777069834, 768639273, "ndourvivi@gmail.com",
+    "Guediawaye", "EAU & ENVIRONNEMENT", "2014-2015", "", "L3", 1, 0);
+
+
+
+INSERT INTO Util (keyUtil, valueUtil) values ("lastNumSynced", "0");

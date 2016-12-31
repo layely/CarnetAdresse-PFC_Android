@@ -56,7 +56,6 @@ public class AddEtudiantTask extends AsyncTask<Void, String, Void> {
             paramsMap.put("sexe", String.valueOf(etu.getSexe()));
             paramsMap.put("dateNaissance", etu.getDateNais());
             paramsMap.put("filiere", etu.getFiliere().getLibelleFiliere());
-            paramsMap.put("promo", etu.getPromo().getPromo());
             paramsMap.put("specialite", etu.getSpecialite());
             paramsMap.put("niveau", etu.getNiveau());
 
@@ -79,7 +78,7 @@ public class AddEtudiantTask extends AsyncTask<Void, String, Void> {
                         publishProgress(" envoi des données ...");
                         Log.i("tagasync", "envoi des données ...");
                         int numLastSynced = jsonObject.getInt("data");
-                        utilDAO.incrementLastNumSynced();
+                        utilDAO.setLastNumSynced(utilDAO.getLastNumSynced() + 1);
                         etudiantDAO.setSynced(etu);
                         Log.i("tagasync", " JsonArrayCreated...");
                     } else {

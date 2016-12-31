@@ -4,20 +4,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
 
-import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.FiliereDAO;
-import com.univ_thies.www.carnetdadresseufrset.database.PromoDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
-import com.univ_thies.www.carnetdadresseufrset.objects.Promo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,25 +30,16 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
 
     private final String PHP_FILE = "fetch_student.php";
     private List<Etudiant> newEtudiants;
-    private Snackbar snackbar;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     private Context context;
     private EtudiantDAO etudiantDAO;
     private UtilDAO utilDAO;
-    private ListView listView;
-    private HttpURLConnection conn;
 
-    public FetchEtudiantTask(Context context, ListView listView, View view, SwipeRefreshLayout swipeRefreshLayout) {
+    public FetchEtudiantTask(Context context) {
         this.context = context;
         etudiantDAO = new EtudiantDAO(context);
         utilDAO = new UtilDAO(context);
-        this.listView = listView;
-        snackbar = Snackbar.make(view, "Connection ...", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Action", null);
         Log.i("tagasync", "instaciation over");
-        this.swipeRefreshLayout = swipeRefreshLayout;
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -101,16 +85,17 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
                             String adresse = c.getString("adresseEtu");
                             String specialite = c.getString("specialiteEtu");
                             String niveau = c.getString("niveauEtu");
-                            String promo = c.getString("promoEtu");
                             String libeleFiliere = c.getString("libeleFiliereEtu");
+                            int numSync = c.getInt("num_sync_etu");
 
-                            Promo objectPromo = new PromoDAO(context).getPromo(promo);
                             Filiere objectFiliere = new FiliereDAO(context).getFiliere(libeleFiliere);
-
-                            Etudiant etudiant = new Etudiant(ine, numDossier, nom, prenom, dateNaiss, sexe, mobile1, mobile2, email, adresse, specialite, objectFiliere, objectPromo, niveau, 0, 0);
+                            if (specialite.equalsIgnoreCase("null")) {
+                                specialite = "";
+                            }
+                            Etudiant etudiant = new Etudiant(ine, numDossier, nom, prenom, dateNaiss, sexe, mobile1, mobile2, email, adresse, specialite, objectFiliere, niveau, 0, 0);
                             newEtudiants.add(etudiant);
-//                            etudiantDAO.addEtudiant(etudiant);
-//                            utilDAO.incrementLastNumSynced();
+                            etudiantDAO.addEtudiant(etudiant);
+                            utilDAO.setLastNumSynced(numSync);
                             Log.i("tagasync", "---//----------etudiant: " + etudiant.getPrenom() + " " + etudiant.getNom() + " " + etudiant.getDateNais() + " " + etudiant.getSpecialite());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -142,12 +127,12 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
     protected void onPostExecute(Void aVoid) {
         Log.i("tagasync", ":::::::::onPostExecute");
         Log.i("tagasync", "::::::::: ListEtudiants: " + newEtudiants.size());
-        for (Etudiant etudiant : newEtudiants) {
-            Log.i("tagasync", "about to add etudiant :::: " + etudiant.getPrenom() + " " + etudiant.getNom());
-            etudiantDAO.addEtudiant(etudiant);
-            utilDAO.incrementLastNumSynced();
-            Log.i("tagasync", "etudiant added + lastNumSynced updated");
-        }
+//        for (Etudiant etudiant : newEtudiants) {
+//            Log.i("tagasync", "about to add etudiant :::: " + etudiant.getPrenom() + " " + etudiant.getNom());
+//            etudiantDAO.addEtudiant(etudiant);
+//            utilDAO.incrementLastNumSynced();
+//            Log.i("tagasync", "etudiant added + lastNumSynced updated");
+//        }
 //        try {
 //            Thread.sleep(1000);
 //            snackbar.dismiss();
@@ -155,27 +140,16 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
 //            e.printStackTrace();
 //        }
 
-        if (listView != null && listView.getAdapter() instanceof ListEtudiantAdapter) {
-            ListEtudiantAdapter adapter = ((ListEtudiantAdapter) listView.getAdapter());
-            adapter.clear();
-            adapter.addAll(etudiantDAO.getAllEtudiants());
-        }
-
-        if (swipeRefreshLayout != null)
-            swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
-        if (snackbar != null)
-            snackbar.setText(values[0]);
     }
 
     @Override
     protected void onPreExecute() {
         newEtudiants = new LinkedList<>();
         Log.i("tagasync", ":::::::::onPreExecute - start");
-        snackbar.show();
         Log.i("tagasync", ":::::::::onPreExecute - end");
     }
 

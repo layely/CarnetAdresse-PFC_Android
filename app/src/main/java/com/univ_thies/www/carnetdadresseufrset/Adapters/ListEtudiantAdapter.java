@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 /**
@@ -24,35 +25,68 @@ import java.util.regex.Pattern;
 
 public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements SectionIndexer {
     private static final int TYPE_ITEM = 0;
-    private static final int TYPE_SEPARATOR = 1;
+    private static final int TYPE_SECTION = 1;
     List<Etudiant> etudiants;
     private String toHighlight = "";
-    private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
+    private ArrayList<Character> sections;
 
     public ListEtudiantAdapter(Context context, List<Etudiant> etudiants) {
         super(context, R.layout.row_list_etudiant, etudiants);
         this.etudiants = etudiants;
+        sections = new ArrayList<>(26);
+        for (Etudiant etudiant : etudiants) {
+            Character letter = etudiant.getPrenom().charAt(0);
+            if (!sections.contains(letter)) {
+                sections.add(letter);
+            }
+        }
     }
 
-    public void addItem(final Etudiant etudiant) {
-        etudiants.add(etudiant);
-        notifyDataSetChanged();
-    }
+//    public void addSectionHeaderItem(final String section) {
+//        sections.add(section);
+//        notifyDataSetChanged();
+//    }
 
-    public void addSectionHeaderItem(final String item) {
-        sectionHeader.add(etudiants.size() - 1);
-        notifyDataSetChanged();
+//    @Override
+//    public int getItemViewType(int position) {
+//        return sections.contains(position) ? TYPE_SECTION : TYPE_ITEM;
+//    }
+
+    @Override
+    public Object[] getSections() {
+        return this.sections.toArray();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return sectionHeader.contains(position) ? TYPE_SEPARATOR : TYPE_ITEM;
+    public int getPositionForSection(int sectionIndex) {
+
+        int positionForSection = 0;
+        for (int i = 0; i < getCount(); i++) {
+            if (getItem(i).getPrenom().toUpperCase().charAt(0) == sections.get(sectionIndex)) {
+                positionForSection = i;
+                break;
+            }
+        }
+        Log.i("sectionIndexer", "section index: " + sectionIndex);
+        Log.i("sectionIndexer", "position for section: " + positionForSection);
+        return positionForSection;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 
     @Override
     public int getViewTypeCount() {
         return 2;
     }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        Character c = etudiants.get(position).getPrenom().charAt(0);
+//        if ()
+//    }
 
     @Override
     public int getCount() {
@@ -82,9 +116,10 @@ public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements Secti
                 row = li.inflate(R.layout.row_list_etudiant, parent, false);
             }
 
+            ImageView imageView = (ImageView) row.findViewById(R.id.imageviewlist);
             TextView textviewNomPrenom = (TextView) row.findViewById(R.id.textviewNomPrenom);
-            TextView textviewINE = (TextView) row.findViewById(R.id.textviewINE);
-            TextView textviewFilProm = (TextView) row.findViewById(R.id.textviewFilPro);
+            TextView textviewNumero = (TextView) row.findViewById(R.id.textviewNumero);
+            TextView textviewFilProm = (TextView) row.findViewById(R.id.textviewNiveauSpec);
 
             Etudiant etudiant = getItem(position);
 
@@ -111,9 +146,23 @@ public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements Secti
             Log.i("tag", "::::::: toHLML: " + toHTML.toString());
 //        textviewNomPrenom.setText(Html.fromHtml("<font size=\"\" color=\"#FF0000\" face=\"\">Laye</font> Ly"));
             textviewNomPrenom.setText(Html.fromHtml(toHTML.toString()));
-            textviewINE.setText(etudiant.getIne());
-            textviewFilProm.setText(etudiant.getFiliere().getLibelleFiliere() + " " + etudiant.getPromo().toString());
-        } else if (rowType == TYPE_SEPARATOR) {
+            textviewNumero.setText(Long.toString(etudiant.getNumDossier()));
+            textviewFilProm.setText(etudiant.getNiveau() + " " + etudiant.getSpecialite());
+
+            int resId = 0;
+            if (etudiant.getFiliere().getLibelleFiliere().equalsIgnoreCase("INFORMATIQUE")) {
+                resId = R.mipmap.ic_i;
+            } else if (etudiant.getFiliere().getLibelleFiliere().equalsIgnoreCase("MATHEMATIQUE & INFORMATIQUE")) {
+                resId = R.mipmap.ic_mig;
+            } else if (etudiant.getFiliere().getLibelleFiliere().equalsIgnoreCase("PHYSIQUE & CHIMIE")) {
+                resId = R.mipmap.ic_mi;
+            } else if (etudiant.getFiliere().getLibelleFiliere().equalsIgnoreCase("EAU & ENVIRONNEMENT")) {
+                resId = R.mipmap.ic_seeg;
+            }
+
+            imageView.setImageResource(resId);
+
+        } else if (rowType == TYPE_SECTION) {
             if (row == null) {
                 LayoutInflater li = LayoutInflater.from(parent.getContext());
                 row = li.inflate(R.layout.list_header, parent, false);
@@ -133,18 +182,4 @@ public class ListEtudiantAdapter extends ArrayAdapter<Etudiant> implements Secti
         this.toHighlight = toHighlight.toUpperCase();
     }
 
-    @Override
-    public Object[] getSections() {
-        return new Object[0];
-    }
-
-    @Override
-    public int getPositionForSection(int sectionIndex) {
-        return 0;
-    }
-
-    @Override
-    public int getSectionForPosition(int position) {
-        return 0;
-    }
 }

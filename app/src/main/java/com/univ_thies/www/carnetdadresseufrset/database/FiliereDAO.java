@@ -50,6 +50,7 @@ public class FiliereDAO {
         while (!result.isAfterLast()) {
             String libelefil = result.getString(result.getColumnIndex(COLUMN_LIBELE));
             String specialitesStr = result.getString(result.getColumnIndex(COLUMN_SPECIALITES));
+            Log.i("tag_specialite", "as list ::: filiere::: " + libelefil + "raw specialite :::: " + specialitesStr);
             ArrayList<String> specialites = Filiere.getListOfSpecialites(specialitesStr);
             int sync = result.getInt(result.getColumnIndex(COLUMN_SYNC));
             int modifSync = result.getInt(result.getColumnIndex(COLUMN_MODIF_SYNC));
@@ -88,8 +89,10 @@ public class FiliereDAO {
 
         List<Filiere> list = asList(result);
         Log.i("tag", "on Get Filiere:::::  list size : " + list.size());
-        if (list.size() > 0)
+        if (list.size() > 0) {
+//            Log.i("tag_specialite", "specialites raw::::: )_
             return list.get(0);
+        }
         return null;
     }
 

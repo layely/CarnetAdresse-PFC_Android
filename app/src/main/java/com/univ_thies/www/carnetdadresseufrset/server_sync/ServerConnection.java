@@ -1,7 +1,17 @@
 package com.univ_thies.www.carnetdadresseufrset.server_sync;
 
+import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
+
+import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
+import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
+import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,16 +22,20 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by layely on 12/16/16.
  */
 
 public class ServerConnection {
+    public static final String RESULT_TAG = "result";
+    public static final String DATA_TAG = "data";
+    public static final String MESSAGE_TAG = "message";
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECTION_TIMEOUT = 5000;
-
-    private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
+    //    private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
+    private static final String URLstr = "http://192.168.1.44/CarnetAdresseRestful";
 
     public static HttpURLConnection getConnection(String phpfile, HashMap<String, String> params) {
         HttpURLConnection conn = null;
@@ -30,9 +44,10 @@ public class ServerConnection {
         try {
 //            url = new URL(URLstr);
             Uri.Builder urlBuider = Uri.parse(URLstr).buildUpon().appendPath(phpfile);
-            for (String key : params.keySet()) {
-                urlBuider.appendQueryParameter(key, params.get(key));
-            }
+            if (params != null)
+                for (String key : params.keySet()) {
+                    urlBuider.appendQueryParameter(key, params.get(key));
+                }
 //                    .appendQueryParameter(UtilDAO.FIELD_LAST_NUM_SYNCED, Integer.toString(utilDAO.getLastNumSynced()))
 
             url = new URL(urlBuider.build().toString());
@@ -91,5 +106,56 @@ public class ServerConnection {
         return result.toString();
     }
 
+    public static void executeUpdate(final Context context, ListView listView, View fab, SwipeRefreshLayout swipeRefreshLayout) throws ExecutionException, InterruptedException {
+        Snackbar snackbar = Snackbar.make(fab, "Synchronisation en cours ...", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Action", null);
+        snackbar.show();
+
+
+        ((Activity) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                UtilDAO utilDAO = new UtilDAO(context);
+                final DeleteEtudiantInServerTask deleteEtudiantInServerTask = new DeleteEtudiantInServerTask(context);
+                final FetchEtudiantTask fetchEtudiantTask = new FetchEtudiantTask(context);
+                final DeleteEtudiantInLocalTask deleteEtudiantInLocalTask = new DeleteEtudiantInLocalTask(context);
+                final AddEtudiantTask addEtudiantTask = new AddEtudiantTask(context);
+                final SetParametersForFirstConnectionTask setinitialParamsTask = new SetParametersForFirstConnectionTask(context);
+                try {
+                    Log.i("tagasync", "number of sync; " + utilDAO.getNumberOfSync());
+                    if (utilDAO.getNumberOfSync() == 0) {
+                        setinitialParamsTask.execute();
+                        setinitialParamsTask.get();
+                    }
+                    deleteEtudiantInServerTask.execute();
+                    deleteEtudiantInServerTask.get();
+                    deleteEtudiantInLocalTask.execute();
+                    deleteEtudiantInLocalTask.get();
+                    fetchEtudiantTask.execute();
+                    fetchEtudiantTask.get();
+                    addEtudiantTask.execute();
+                    addEtudiantTask.get();
+                    utilDAO.incrementNumberOfSync();
+                } catch (InterruptedException e) {
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        if (listView != null && listView.getAdapter() instanceof ListEtudiantAdapter) {
+            ListEtudiantAdapter adapter = ((ListEtudiantAdapter) listView.getAdapter());
+            adapter.clear();
+            adapter.addAll(new EtudiantDAO(context).getAllEtudiants());
+        }
+        if (swipeRefreshLayout != null)
+            swipeRefreshLayout.setRefreshing(false);
+        snackbar.setText("Synchronisation Términé");
+    }
+
+//    public static void setParametersForFistLaunch(HomeActivity homeActivity) {
+//        UtilDAO utilDAO = new UtilDAO(homeActivity);
+//    }
 }
 

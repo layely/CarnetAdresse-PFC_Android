@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
@@ -16,7 +17,10 @@ public class DisplayEtudiantActivity extends AppCompatActivity implements Displa
 
     public static final String KEY_ETU_SER = "com.univ_thies.www.carnetdadresseufrset.activities.serkey";
     public static final String KEY_ADD = "add";
-
+    public static final int REQUEST_CODE = 1;
+    public static final int RESPONSE_CODE_EXIT = 1;
+    public static final int RESPONSE_CODE_RELOAD = 2;
+    DisplayEtudiantFragment fragment;
     private Etudiant etudiant;
 
     @Override
@@ -31,7 +35,7 @@ public class DisplayEtudiantActivity extends AppCompatActivity implements Displa
 //        Toast.makeText(this, etudiant.getPrenom(), Toast.LENGTH_LONG).show();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        DisplayEtudiantFragment fragment = DisplayEtudiantFragment.newInstance(etudiant);
+        fragment = DisplayEtudiantFragment.newInstance(etudiant);
         ft.replace(R.id.fragment_display_etu, fragment);
         ft.commit();
 
@@ -48,11 +52,26 @@ public class DisplayEtudiantActivity extends AppCompatActivity implements Displa
         Intent i = new Intent(this, EditEtudiantActivity.class);
         i.putExtra(DisplayEtudiantActivity.KEY_ETU_SER, etudiant);
         i.putExtra(DisplayEtudiantActivity.KEY_ADD, false);
-        startActivity(i);
+        startActivityForResult(i, REQUEST_CODE);
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESPONSE_CODE_EXIT) {
+                finish();
+            } else if (resultCode == RESPONSE_CODE_RELOAD) {
+                etudiant = (Etudiant) data.getSerializableExtra(DisplayEtudiantActivity.KEY_ETU_SER);
+                Log.i("displayactivity", "nom et prenom: " + etudiant.getNom() + " " + etudiant.getPrenom());
+                if (fragment != null) {
+                    fragment.reload(etudiant);
+                }
+            }
+        }
     }
 }

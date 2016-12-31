@@ -108,6 +108,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layoutSpinnerSpecialiteEdit"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_dis_line_distance"
                     android:gravity="center_vertical"
@@ -121,34 +122,6 @@
 
                     <Spinner
                         android:id="@+id/spinnerSpecialite"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/colorText"
-                        android:textSize="@dimen/dim_normal_text" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="14dp"
-                    android:background="@color/colorLine">
-
-                </View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dim_dis_line_distance"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Promo"
-                        android:textColor="@color/colorMicroTextDis" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/autocpPromoEdit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textColor="@color/colorText"

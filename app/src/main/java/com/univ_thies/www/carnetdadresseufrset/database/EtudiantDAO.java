@@ -8,9 +8,8 @@ import android.util.Log;
 
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
-import com.univ_thies.www.carnetdadresseufrset.objects.Promo;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,20 +28,20 @@ public class EtudiantDAO {
     public static final String COLUMN_EMAIL = "emailEtu";
     public static final String COLUMN_ADRESSE = "adresseEtu";
     public static final String COLUMN_FILIERE = "filiereEtu";
-    public static final String COLUMN_PROMO = "promoEtu";
     public static final String COLUMN_SPECIALITE = "specialiteEtu";
+
     public static final String COLUMN_SYNC = "syncEtu";
     public static final String COLUMN_MODIF_SYNC = "modifSyncEtu";
     private static final String COLUMN_NIVEAU = "niveauEtu";
     private SQLiteDatabase db;
     private FiliereDAO filiereDAO;
+    private EtudiantSupDAO etudiantSupDAO;
 
-    private PromoDAO promoDAO;
 
     public EtudiantDAO(Context context) {
         db = new SQLHelper(context).getWritableDatabase();
         filiereDAO = new FiliereDAO(context);
-        promoDAO = new PromoDAO(context);
+        etudiantSupDAO = new EtudiantSupDAO(context);
     }
 
     public List<Etudiant> getAllEtudiants() {
@@ -57,8 +56,8 @@ public class EtudiantDAO {
         return list;
     }
 
-    private List<Etudiant> asList(Cursor result) {
-        List<Etudiant> list = new ArrayList<>();
+    protected List<Etudiant> asList(Cursor result) {
+        List<Etudiant> list = new LinkedList<>();
         if (result == null)
             return list;
 
@@ -76,16 +75,16 @@ public class EtudiantDAO {
             String addresse = result.getString(result.getColumnIndex(COLUMN_ADRESSE));
             String specialite = result.getString(result.getColumnIndex(COLUMN_SPECIALITE));
             String filiereStr = result.getString(result.getColumnIndex(COLUMN_FILIERE));
-            String promoStr = result.getString(result.getColumnIndex(COLUMN_PROMO));
             String niveau = result.getString(result.getColumnIndex(COLUMN_NIVEAU));
             int sync = result.getInt(result.getColumnIndex(COLUMN_SYNC));
             int modif_sync = result.getInt(result.getColumnIndex(COLUMN_MODIF_SYNC));
 
-            Promo promo = new Promo(promoStr, 0, 0);//promoDAO.getPromo(promoStr);
             Log.i("tag", "on Get All Etudiant ::::: filiereStr : " + filiereStr);
             Filiere filiere = filiereDAO.getFiliere(filiereStr);
+            for (String spec : filiere.getSpecialites())
+                Log.i("tag", "on Get All Etudiant ::::: specilite ## : " + spec);
 
-            Etudiant etu = new Etudiant(ine, numDossier, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, promo, niveau, sync, modif_sync);
+            Etudiant etu = new Etudiant(ine, numDossier, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, niveau, sync, modif_sync);
             list.add(etu);
             result.moveToNext();
         }
@@ -121,7 +120,6 @@ public class EtudiantDAO {
         if (etudiant.getSpecialite() != null)
             values.put(COLUMN_SPECIALITE, etudiant.getSpecialite().toUpperCase());
         values.put(COLUMN_FILIERE, etudiant.getFiliere().getLibelleFiliere().toUpperCase());
-        values.put(COLUMN_PROMO, etudiant.getPromo().getPromo());
         values.put(COLUMN_NIVEAU, etudiant.getNiveau());
         values.put(COLUMN_SYNC, etudiant.getSync());
         values.put(COLUMN_MODIF_SYNC, etudiant.getModifSync());
@@ -129,7 +127,9 @@ public class EtudiantDAO {
     }
 
     public void modify(Etudiant etudiant, Etudiant newEtu) {
-        //TODO
+        etudiantSupDAO.add(etudiant);
+        deleteFromLocal(etudiant);
+        addEtudiant(newEtu);
     }
 
     public List<Etudiant> getNewEtudiantsUnsynchronizedToServer() {
@@ -148,5 +148,48 @@ public class EtudiantDAO {
         cv.put(COLUMN_SYNC, 0);
 
         db.update(SQLHelper.TABLE_ETUDIANT, cv, COLUMN_INE + "='" + etu.getIne().toUpperCase() + "'", null);
+    }
+
+    public Etudiant get(String ine) {
+        List<Etudiant> list = null;
+
+        String query = "SELECT * FROM " + SQLHelper.TABLE_ETUDIANT + " WHERE " + COLUMN_INE + "='" + ine.toUpperCase() + "' ORDER BY " + COLUMN_PRENOM;
+
+        Cursor result = db.rawQuery(query, null);
+        list = asList(result);
+        result.close();
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    public Etudiant get(int numDossier) {
+        List<Etudiant> list = null;
+
+        String query = "SELECT * FROM " + SQLHelper.TABLE_ETUDIANT + " WHERE " + COLUMN_INE + "='" + numDossier + "' ORDER BY " + COLUMN_PRENOM;
+
+        Cursor result = db.rawQuery(query, null);
+        list = asList(result);
+        result.close();
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+
+    public boolean deleteFromLocal(Etudiant etu) {
+        if (etu == null || etu.getNumDossier() == 0) return false;
+        if (etu.getSync() == 0) {
+            etudiantSupDAO.add(etu);
+        }
+        int result = db.delete(SQLHelper.TABLE_ETUDIANT, COLUMN_NUM_DOSSIER + "='" + etu.getNumDossier() + "'", null);
+        return true;
+    }
+
+    public boolean deleteFromServer(long numDossier) {
+        int result = db.delete(SQLHelper.TABLE_ETUDIANT, COLUMN_NUM_DOSSIER + "='" + numDossier + "'", null);
+        return true;
     }
 }

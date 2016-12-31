@@ -11,18 +11,18 @@ import java.util.List;
 
 public class Filiere implements Serializable {
 
-    private static ArrayList<String> specialites;
+    private ArrayList<String> specialites;
     private String libelleFiliere;
     private int sync;
     private int modifSync;
 
-    public Filiere(String libelleFiliere) {
-        this.libelleFiliere = libelleFiliere;
-    }
+//    public Filiere(String libelleFiliere) {
+//        this.libelleFiliere = libelleFiliere;
+//    }
 
     public Filiere(String libelleFiliere, ArrayList<String> specialites, int sync, int modifsync) {
         this.libelleFiliere = libelleFiliere;
-        Filiere.specialites = specialites;
+        this.specialites = specialites;
         this.sync = sync;
         this.modifSync = modifsync;
     }
@@ -32,7 +32,9 @@ public class Filiere implements Serializable {
     }
 
     public static ArrayList<String> getListOfSpecialites(String specialitesStr) {
-        return new ArrayList<String>(Arrays.asList(specialitesStr.split("|")));
+        if (specialitesStr == null || specialitesStr.isEmpty())
+            return null;
+        return new ArrayList<String>(Arrays.asList(specialitesStr.split("\\|")));
     }
 
     public static String getStringOfSpecialites(List<String> specialites) {
@@ -67,7 +69,7 @@ public class Filiere implements Serializable {
     }
 
     public void setSpecialites(ArrayList<String> specialites) {
-        Filiere.specialites = specialites;
+        this.specialites = specialites;
     }
 
     public int getSync() {

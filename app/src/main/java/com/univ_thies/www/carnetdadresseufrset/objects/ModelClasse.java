@@ -1,6 +1,4 @@
-package com.univ_thies.www.carnetdadresseufrset.Adapters;
-
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+package com.univ_thies.www.carnetdadresseufrset.objects;
 
 /**
  * Created by layely on 12/9/16.

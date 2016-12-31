@@ -51,6 +51,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_specialiteDis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -71,25 +72,10 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
                     <TextView
-                        android:id="@+id/textviewPromoDis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="L1"
-                        android:textColor="@color/colorText"
-                        android:textSize="@dimen/dim_normal_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin">
-
-                    <TextView
                         android:id="@+id/textviewNiveauDis"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2015-2016"
+                        android:text="L1"
                         android:textColor="@color/colorText"
                         android:textSize="@dimen/dim_normal_text" />
                 </LinearLayout>
@@ -115,6 +101,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/layout_ineDis"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_dis_line_distance"
                     android:gravity="center_vertical"
@@ -167,6 +154,7 @@
                     android:background="@color/colorLine"></View>
 
                 <RelativeLayout
+                    android:id="@+id/layout_mob1Dis"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_dis_line_distance">
 
@@ -180,7 +168,7 @@
                             android:id="@+id/textviewMob1Dis"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3456789987"
+                            android:text="0"
                             android:textColor="@color/colorText"
                             android:textSize="@dimen/dim_normal_text" />
 
@@ -403,6 +391,7 @@
                     android:background="@color/colorLine"></View>
 
                 <LinearLayout
+                    android:id="@+id/layout_adresseDis"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_dis_line_distance"
                     android:gravity="center_vertical"

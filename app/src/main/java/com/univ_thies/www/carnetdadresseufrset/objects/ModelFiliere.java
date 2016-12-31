@@ -1,7 +1,4 @@
-package com.univ_thies.www.carnetdadresseufrset.Adapters;
-
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
-import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
+package com.univ_thies.www.carnetdadresseufrset.objects;
 
 import java.util.ArrayList;
 

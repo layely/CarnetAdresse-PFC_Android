@@ -46,8 +46,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         // - replace the contents of the view with that element
         Etudiant etudiant = mDataset.get(position);
         holder.textviewPrenomNom.setText(etudiant.getPrenom() + " " + etudiant.getNom());
-        holder.textviewFiliere.setText(etudiant.getFiliere().getLibelleFiliere() + " " + etudiant.getPromo().toString());
-        holder.textViewINE.setText(etudiant.getIne());
+        holder.textviewFiliere.setText(etudiant.getFiliere().getLibelleFiliere());
+        holder.textViewNumero.setText(Long.toString(etudiant.getNumDossier()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -63,13 +63,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         // each data item is just a string in this case
         public TextView textviewPrenomNom;
         public TextView textviewFiliere;
-        public TextView textViewINE;
+        public TextView textViewNumero;
 
         public ViewHolder(View v) {
             super(v);
             textviewPrenomNom = (TextView) v.findViewById(R.id.textviewNomPrenom);
-            textviewFiliere = (TextView) v.findViewById(R.id.textviewFilPro);
-            textViewINE = (TextView) v.findViewById(R.id.textviewINE);
+            textviewFiliere = (TextView) v.findViewById(R.id.textviewNiveauSpec);
+            textViewNumero = (TextView) v.findViewById(R.id.textviewNumero);
 //     rootView = v;
         }
 

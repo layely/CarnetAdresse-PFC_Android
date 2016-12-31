@@ -8,6 +8,12 @@ import android.widget.DatePicker;
 
 public class Utilitaire {
 
+    public static String filterString(String arg) {
+        if (arg != null && !arg.equalsIgnoreCase("null")) {
+            return arg;
+        }
+        return "";
+    }
 
     public static void setDatePicker(String date, DatePicker datePicker) {
         String[] jjmmyyyy = date.split("/");

@@ -1,5 +1,7 @@
 package com.univ_thies.www.carnetdadresseufrset.objects;
 
+import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,44 +23,26 @@ public class Etudiant implements Serializable {
     long mobile2;
     String email;
     String addresse;
-    String specialite;
+    String specialite = "";
     Filiere filiere;
-    Promo promo;
     String niveau;
     int sync;
     int modif_sync;
 
-    public Etudiant(String ine, long numDossier, String nom, String dateNais, char sexe, String email, String addresse, String specialite, long mobile1, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
-        this.ine = ine;
-        this.numDossier = numDossier;
-        this.nom = nom;
-        this.dateNais = dateNais;
-        this.sexe = sexe;
-        this.email = email;
-        this.addresse = addresse;
-        this.specialite = specialite;
-        this.mobile1 = mobile1;
-        this.promo = promo;
-        this.filiere = filiere;
-        this.niveau = niveau;
-        this.sync = sync;
-        this.modif_sync = modif_sync;
-    }
+    public Etudiant(String ine, long numDossier, String nom, String prenom, String dateNais, Character sexe, Long mobile1, Long mobile2, String email, String addresse, String specialite, Filiere filiere, String niveau, int sync, int modif_sync) {
 
-    public Etudiant(String ine, long numDossier, String nom, String prenom, String dateNais, char sexe, long mobile1, long mobile2, String email, String addresse, String specialite, Filiere filiere, Promo promo, String niveau, int sync, int modif_sync) {
-        this.ine = ine;
+        this.ine = Utilitaire.filterString(ine);
         this.numDossier = numDossier;
         this.nom = nom;
         this.prenom = prenom;
-        this.dateNais = dateNais;
-        this.sexe = sexe;
+        this.dateNais = Utilitaire.filterString(dateNais);
+        this.sexe = Utilitaire.filterString(sexe.toString()).charAt(0);
         this.mobile1 = mobile1;
         this.mobile2 = mobile2;
         this.email = email;
-        this.addresse = addresse;
-        this.specialite = specialite;
+        this.addresse = Utilitaire.filterString(addresse);
+        this.specialite = Utilitaire.filterString(specialite);
         this.filiere = filiere;
-        this.promo = promo;
         this.niveau = niveau;
         this.sync = sync;
         this.modif_sync = modif_sync;
@@ -168,7 +152,8 @@ public class Etudiant implements Serializable {
     }
 
     public void setSpecialite(String specialite) {
-        this.specialite = specialite;
+        if (specialite != null && specialite.equalsIgnoreCase("null"))
+            this.specialite = specialite;
     }
 
     public String getPrenom() {
@@ -185,14 +170,6 @@ public class Etudiant implements Serializable {
 
     public void setFiliere(Filiere filiere) {
         this.filiere = filiere;
-    }
-
-    public Promo getPromo() {
-        return promo;
-    }
-
-    public void setPromo(Promo promo) {
-        this.promo = promo;
     }
 
     public int getSync() {

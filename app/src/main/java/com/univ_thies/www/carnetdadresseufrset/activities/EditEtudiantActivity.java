@@ -2,29 +2,28 @@ package com.univ_thies.www.carnetdadresseufrset.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.univ_thies.www.carnetdadresseufrset.Adapters.SpinnerFiliereAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.FiliereDAO;
-import com.univ_thies.www.carnetdadresseufrset.database.PromoDAO;
 import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
-import com.univ_thies.www.carnetdadresseufrset.objects.Promo;
 import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditEtudiantActivity extends AppCompatActivity {
@@ -43,33 +42,52 @@ public class EditEtudiantActivity extends AppCompatActivity {
     Spinner spinnerFiliere;
     Spinner spinnerSpecialite;
     Spinner spinnerNiveau;
-    AutoCompleteTextView autoCompleteTextViewPromo;
     Etudiant etudiant;
     boolean toAdd;
     private EtudiantDAO etudiantDAO;
     private FiliereDAO filiereDAO;
-    private PromoDAO promoDAO;
 
+    private ImageButton imageButtonDelete;
+    private ImageButton imageButtonValidate;
+
+    private View layoutSpinnerSpecialite;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_etudiant);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//        getSupportActionBar().setTitle("hello");
         Intent intent = getIntent();
-
         initDAOs();
         initWidgets();
 
         if (intent.getExtras() == null) {
             etudiant = null;
             toAdd = true;
+            imageButtonDelete.setVisibility(View.GONE);
+            getSupportActionBar().setTitle("Ajout d'un étudiant");
         } else {
+            getSupportActionBar().setTitle("Modification");
             etudiant = (Etudiant) intent.getSerializableExtra(DisplayEtudiantActivity.KEY_ETU_SER);
             toAdd = intent.getBooleanExtra(DisplayEtudiantActivity.KEY_ADD, true);
             loadEtudiantIntoWidget(etudiant);
         }
+
+        imageButtonValidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnValidateAction();
+            }
+        });
+
+        imageButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bntSupprimerAction();
+            }
+        });
+
 
 //        Toast.makeText(this, etudiant.getEmail() + " " + toAdd, Toast.LENGTH_LONG).show();
 
@@ -92,9 +110,13 @@ public class EditEtudiantActivity extends AppCompatActivity {
                 btnValidateAction();
             }
         });
+        fab.setVisibility(View.GONE);
     }
 
+
     private void initWidgets() {
+        imageButtonDelete = (ImageButton) findViewById(R.id.imagebuttonDelete);
+        imageButtonValidate = (ImageButton) findViewById(R.id.imagebuttonValidate);
         editTextNom = (EditText) findViewById(R.id.editTextNomEdit);
         editTextPrenom = (EditText) findViewById(R.id.editTextPrenomEdit);
         editTextEmail = (EditText) findViewById(R.id.editTextEmailEdit);
@@ -104,14 +126,6 @@ public class EditEtudiantActivity extends AppCompatActivity {
         editTextMob2 = (EditText) findViewById(R.id.editTextMob2Edit);
         editTextAddr = (EditText) findViewById(R.id.editTextAddrEdit);
 
-        autoCompleteTextViewPromo = (AutoCompleteTextView) findViewById(R.id.autocpPromoEdit);
-        List<Promo> promos = promoDAO.getAllPromo();
-        List<String> promosStr = new ArrayList<>();
-        for (Promo p : promos) {
-            promosStr.add(p.getPromo());
-        }
-        autoCompleteTextViewPromo.setAdapter(new ArrayAdapter<String>(this, R.layout.item_filiere, R.id.textFil_item, promosStr));
-        autoCompleteTextViewPromo.setThreshold(0);
 
         spinnerFiliere = (Spinner) findViewById(R.id.spinnerFilEdit);
         List<Filiere> filieres = filiereDAO.getAllFiliere();
@@ -123,11 +137,13 @@ public class EditEtudiantActivity extends AppCompatActivity {
 
         spinnerSexe = (Spinner) findViewById(R.id.spinnerSexeEdit);
 
+        layoutSpinnerSpecialite = findViewById(R.id.layoutSpinnerSpecialiteEdit);
         spinnerSpecialite = (Spinner) findViewById(R.id.spinnerSpecialite);
 
         spinnerFiliere.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("tag_specialite", ":::::: onItemSelected");
                 updateSpinnerSpecialite();
             }
 
@@ -148,20 +164,23 @@ public class EditEtudiantActivity extends AppCompatActivity {
     }
 
     private void updateSpinnerSpecialite() {
-        Log.i("tag", "::::::::::::: on Update Spinner Specialite");
+        Log.i("tag_specialite", "::::::::::::: on Update Spinner Specialite");
         Filiere fil = (Filiere) spinnerFiliere.getSelectedItem();
+        Log.i("tag_specialite", "::::::::::::: filiere :** " + fil.getLibelleFiliere());
+        if (fil.getSpecialites() != null)
+            for (String spec : fil.getSpecialites())
+                Log.i("tag_specialite", "::::::::::::: spec :** " + spec);
         List<String> specialites = fil.getSpecialites();
 
-
         if (specialites == null || specialites.size() <= 0) {
-            Log.i("tag", "Specialite is null");
-            spinnerSpecialite.setVisibility(View.GONE);
+            Log.i("tag_specialite", "Specialite is null");
+            layoutSpinnerSpecialite.setVisibility(View.GONE);
         } else {
-            Log.i("tag", "Speciales: not null");
+            Log.i("tag_specialite", "Speciales: not null");
             spinnerSpecialite.setAdapter(new ArrayAdapter<String>(this, R.layout.item_filiere, R.id.textFil_item, specialites));
-            spinnerSpecialite.setVisibility(View.VISIBLE);
+            layoutSpinnerSpecialite.setVisibility(View.VISIBLE);
             for (String spec : specialites) {
-                Log.i("tag", spec);
+                Log.i("tag_specialite", "specialite: " + spec);
             }
         }
     }
@@ -169,7 +188,6 @@ public class EditEtudiantActivity extends AppCompatActivity {
     private void initDAOs() {
         etudiantDAO = new EtudiantDAO(this);
         filiereDAO = new FiliereDAO(this);
-        promoDAO = new PromoDAO(this);
     }
 
     private Etudiant createEtudiant() {
@@ -187,34 +205,30 @@ public class EditEtudiantActivity extends AppCompatActivity {
 
         Filiere filiere = (Filiere) spinnerFiliere.getSelectedItem();
 
-        Promo promo = new Promo(autoCompleteTextViewPromo.getText().toString(), 0, 0);
         String INE = editTextINE.getText().toString();
-        if (INE.isEmpty()) {
-            editTextINE.requestFocus();
-            return null;
-        }
 
         String numDossierStr = editTextNumDossier.getText().toString();
-        int numDossier = 0;
+        Long numDossier = Long.valueOf(0);
         if (numDossierStr.isEmpty()) {
             editTextNumDossier.requestFocusFromTouch();
             return null;
         } else {
             try {
-                numDossier = Integer.parseInt(numDossierStr);
+                numDossier = Long.parseLong(numDossierStr);
             } catch (Exception e) {
                 editTextNumDossier.requestFocus();
                 return null;
             }
         }
 
-        long mobile1;
-        try {
-            mobile1 = Long.parseLong(editTextMob1.getText().toString());
-        } catch (Exception e) {
-            editTextMob1.requestFocus();
-            return null;
-        }
+        long mobile1 = 0;
+        if (!editTextMob1.getText().toString().isEmpty())
+            try {
+                mobile1 = Long.parseLong(editTextMob1.getText().toString());
+            } catch (Exception e) {
+                editTextMob1.requestFocus();
+                return null;
+            }
 
         long mobile2 = 0;
         if (!editTextMob2.getText().toString().isEmpty()) {
@@ -236,25 +250,20 @@ public class EditEtudiantActivity extends AppCompatActivity {
         char sexe = ((String) spinnerSexe.getSelectedItem()).charAt(0);
 
         String addresse = editTextAddr.getText().toString();
-        if (addresse.isEmpty()) {
-            editTextAddr.requestFocus();
-            return null;
-        }
 
         String dateNaiss = Utilitaire.getDateString(datepickerDateNaiss);
 
         int sync = 0;
         int modif_sync = 0;
-        if (toAdd)
-            sync = 1;
-        else
-            modif_sync = 1;
+//        if (toAdd)
+        sync = 1;
+//        else
+//            modif_sync = 1;
 
         Etudiant etu = new Etudiant(sync, modif_sync);
         etu.setNom(nom);
         etu.setPrenom(prenom);
         etu.setFiliere(filiere);
-        etu.setPromo(promo);
         etu.setIne(INE);
         etu.setNumDossier(numDossier);
         etu.setMobile1(mobile1);
@@ -273,16 +282,15 @@ public class EditEtudiantActivity extends AppCompatActivity {
     }
 
     private void loadEtudiantIntoWidget(Etudiant etudiant) {
-        editTextNom.setText(etudiant.getNom());
-        editTextPrenom.setText(etudiant.getPrenom());
+        editTextNom.setText(etudiant.getNom().toString());
+        editTextPrenom.setText(etudiant.getPrenom().toString());
         editTextMob1.setText(String.valueOf(etudiant.getMobile1()));
         String strMobile2 = String.valueOf(etudiant.getMobile2());
         if (!strMobile2.equalsIgnoreCase("0")) {
             editTextMob2.setText(strMobile2);
         }
         editTextEmail.setText(etudiant.getEmail());
-        autoCompleteTextViewPromo.setText(etudiant.getPromo().getPromo());
-        editTextINE.setText(etudiant.getIne());
+        editTextINE.setText(etudiant.getIne().toString());
         editTextNumDossier.setText(Long.toString(etudiant.getNumDossier()));
         editTextAddr.setText(etudiant.getAddresse());
 
@@ -304,7 +312,21 @@ public class EditEtudiantActivity extends AppCompatActivity {
             etudiantDAO.addEtudiant(newEtu);
         } else {
             etudiantDAO.modify(etudiant, newEtu);
+            Intent i = new Intent(this, EditEtudiantActivity.class);
+            i.putExtra(DisplayEtudiantActivity.KEY_ETU_SER, newEtu);
+            setResult(DisplayEtudiantActivity.RESPONSE_CODE_RELOAD, i);
         }
         finish();
+    }
+
+
+    private void bntSupprimerAction() {
+        if (etudiant != null) {
+            Log.i("deleteFromLocal", "buttonDeletePresssed : " + etudiant.getPrenom() + " " + etudiant.getNom());
+            Snackbar.make(new CoordinatorLayout(EditEtudiantActivity.this), "deleted: " + etudiant.getPrenom(), Snackbar.LENGTH_INDEFINITE).show();
+            etudiantDAO.deleteFromLocal(etudiant);
+            setResult(DisplayEtudiantActivity.RESPONSE_CODE_EXIT);
+            finish();
+        }
     }
 }
