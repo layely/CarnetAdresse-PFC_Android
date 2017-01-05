@@ -6,9 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
+import com.univ_thies.www.carnetdadresseufrset.metier.Filiere;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class FiliereDAO {
     }
 
     private List<Filiere> asList(Cursor result) {
-        List<Filiere> list = new ArrayList<>();
+        List<Filiere> list = new LinkedList<>();
 
         if (result == null)
             return list;

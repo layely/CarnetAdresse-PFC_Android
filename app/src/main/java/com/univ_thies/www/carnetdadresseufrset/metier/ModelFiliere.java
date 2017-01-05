@@ -1,4 +1,4 @@
-package com.univ_thies.www.carnetdadresseufrset.objects;
+package com.univ_thies.www.carnetdadresseufrset.metier;
 
 import java.util.ArrayList;
 

@@ -40,9 +40,9 @@ CREATE TABLE Util (
 );
 
 
-INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("INFORMATIQUE", "RESEAUX ET TELECOM (RT)|GENIE LOGICIEL (GL)", 1, 0);
-INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("MATHEMATIQUE & INFORMATIQUE", "ENSEIGNEMENT", 1, 0);
-INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("EAU & ENVIRONNEMENT", "HYDRAULIQUE & ASSAINISSEMENT(IHA)", 1, 0);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("INFORMATIQUE", " |RESEAUX ET TELECOM (RT)|GENIE LOGICIEL (GL)", 1, 0);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("MATHEMATIQUE & INFORMATIQUE", " |ENSEIGNEMENT", 1, 0);
+INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("EAU & ENVIRONNEMENT", " |HYDRAULIQUE & ASSAINISSEMENT(IHA)", 1, 0);
 INSERT INTO Filiere (libeleFil, specialitesFil, syncFil, modifSyncFil) VALUES ("PHYSIQUE & CHIMIE", "", 1, 0);
 
 

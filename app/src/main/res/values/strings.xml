@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Carnet D\'adresse UFR SET</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_home">Accueil - CASET</string>
-    <string name="action_settings">Settings</string>
+    <string name="title_activity_home">"Carnet d'adresse UFR SET"</string>
+    <string name="admin">Mode Admin</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->

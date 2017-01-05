@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
-import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Filiere;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -81,8 +81,9 @@ public class EtudiantDAO {
 
             Log.i("tag", "on Get All Etudiant ::::: filiereStr : " + filiereStr);
             Filiere filiere = filiereDAO.getFiliere(filiereStr);
-            for (String spec : filiere.getSpecialites())
-                Log.i("tag", "on Get All Etudiant ::::: specilite ## : " + spec);
+            if (filiere.getSpecialites() != null)
+                for (String spec : filiere.getSpecialites())
+                    Log.i("tag", "on Get All Etudiant ::::: specilite ## : " + spec);
 
             Etudiant etu = new Etudiant(ine, numDossier, nom, prenom, dateNais, sexe, mobile1, mobile2, email, addresse, specialite, filiere, niveau, sync, modif_sync);
             list.add(etu);

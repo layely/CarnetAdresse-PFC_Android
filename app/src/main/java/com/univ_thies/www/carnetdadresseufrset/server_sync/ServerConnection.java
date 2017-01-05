@@ -35,7 +35,7 @@ public class ServerConnection {
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECTION_TIMEOUT = 5000;
     //    private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
-    private static final String URLstr = "http://192.168.1.44/CarnetAdresseRestful";
+    private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
 
     public static HttpURLConnection getConnection(String phpfile, HashMap<String, String> params) {
         HttpURLConnection conn = null;
@@ -66,21 +66,6 @@ public class ServerConnection {
             conn.setDoOutput(true);
             Log.i("tagasync", ":::::::::open connection end");
 
-            // Append parameters to URL
-//            Uri.Builder builder = new Uri.Builder()
-//                    .appendQueryParameter(UtilDAO.FIELD_LAST_NUM_SYNCED, Integer.toString(utilDAO.getLastNumSynced()));
-//            String query = builder.build().getEncodedQuery();
-//            Log.i("tagasync", "::::::::: getencoded query === " + query);
-//            Log.i("tagasync", "::::::::: raw query === " + builder.build().toString());
-
-            // Open connection for sending data
-//            OutputStream os = conn.getOutputStream();
-//            BufferedWriter writer = new BufferedWriter(
-//                    new OutputStreamWriter(os, "UTF-8"));
-//            writer.write(query);
-//            writer.flush();
-//            writer.close();
-//            os.close();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -106,28 +91,28 @@ public class ServerConnection {
         return result.toString();
     }
 
-    public static void executeUpdate(final Context context, ListView listView, View fab, SwipeRefreshLayout swipeRefreshLayout) throws ExecutionException, InterruptedException {
-        Snackbar snackbar = Snackbar.make(fab, "Synchronisation en cours ...", Snackbar.LENGTH_INDEFINITE)
+    public static void executeUpdate(final Context context, final ListView listView, View fab, final SwipeRefreshLayout swipeRefreshLayout) throws ExecutionException, InterruptedException {
+        final Snackbar snackbar = Snackbar.make(fab, "Synchronisation en cours ...", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Action", null);
         snackbar.show();
 
+        final UtilDAO utilDAO = new UtilDAO(context);
+        final DeleteEtudiantInServerTask deleteEtudiantInServerTask = new DeleteEtudiantInServerTask(context);
+        final FetchEtudiantTask fetchEtudiantTask = new FetchEtudiantTask(context);
+        final DeleteEtudiantInLocalTask deleteEtudiantInLocalTask = new DeleteEtudiantInLocalTask(context);
+        final AddEtudiantTask addEtudiantTask = new AddEtudiantTask(context);
+        final SetParametersForFirstConnectionTask setinitialParamsTask = new SetParametersForFirstConnectionTask(context);
+        Log.i("tagasync", "number of sync; " + utilDAO.getNumberOfSync());
 
-        ((Activity) context).runOnUiThread(new Runnable() {
+        deleteEtudiantInServerTask.execute();
+        Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                UtilDAO utilDAO = new UtilDAO(context);
-                final DeleteEtudiantInServerTask deleteEtudiantInServerTask = new DeleteEtudiantInServerTask(context);
-                final FetchEtudiantTask fetchEtudiantTask = new FetchEtudiantTask(context);
-                final DeleteEtudiantInLocalTask deleteEtudiantInLocalTask = new DeleteEtudiantInLocalTask(context);
-                final AddEtudiantTask addEtudiantTask = new AddEtudiantTask(context);
-                final SetParametersForFirstConnectionTask setinitialParamsTask = new SetParametersForFirstConnectionTask(context);
                 try {
-                    Log.i("tagasync", "number of sync; " + utilDAO.getNumberOfSync());
                     if (utilDAO.getNumberOfSync() == 0) {
                         setinitialParamsTask.execute();
                         setinitialParamsTask.get();
                     }
-                    deleteEtudiantInServerTask.execute();
                     deleteEtudiantInServerTask.get();
                     deleteEtudiantInLocalTask.execute();
                     deleteEtudiantInLocalTask.get();
@@ -136,26 +121,31 @@ public class ServerConnection {
                     addEtudiantTask.execute();
                     addEtudiantTask.get();
                     utilDAO.incrementNumberOfSync();
+
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (listView != null && listView.getAdapter() instanceof ListEtudiantAdapter) {
+                                ListEtudiantAdapter adapter = ((ListEtudiantAdapter) listView.getAdapter());
+                                adapter.clear();
+                                adapter.addAll(new EtudiantDAO(context).getAllEtudiants());
+                            }
+                            if (swipeRefreshLayout != null)
+                                swipeRefreshLayout.setRefreshing(false);
+                            snackbar.setText("Synchronisation Términé");
+                        }
+                    });
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
             }
         });
+        t.start();
 
-
-        if (listView != null && listView.getAdapter() instanceof ListEtudiantAdapter) {
-            ListEtudiantAdapter adapter = ((ListEtudiantAdapter) listView.getAdapter());
-            adapter.clear();
-            adapter.addAll(new EtudiantDAO(context).getAllEtudiants());
-        }
-        if (swipeRefreshLayout != null)
-            swipeRefreshLayout.setRefreshing(false);
-        snackbar.setText("Synchronisation Términé");
     }
 
-//    public static void setParametersForFistLaunch(HomeActivity homeActivity) {
-//        UtilDAO utilDAO = new UtilDAO(homeActivity);
-//    }
 }
 

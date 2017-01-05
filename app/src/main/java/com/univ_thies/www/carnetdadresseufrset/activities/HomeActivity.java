@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -35,9 +36,10 @@ import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.server_sync.ServerConnection;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
+import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +104,14 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                Snackbar mySnackbar = Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null);
-                Intent i = new Intent(HomeActivity.this, EditEtudiantActivity.class);
-                startActivity(i);
+                if (Utilitaire.modeAdmin) {
+                    Intent i = new Intent(HomeActivity.this, EditEtudiantActivity.class);
+                    startActivity(i);
+                } else {
+                    Snackbar mySnackbar = Snackbar.make(view, "Mode admin requis pour cette action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    mySnackbar.show();
+                }
             }
         });
 
@@ -133,10 +141,26 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_admin) {
+            String snackText = "Mode Admin activé";
+            if (Utilitaire.modeAdmin)
+                snackText = "Mode Admin déja activé";
+            Utilitaire.modeAdmin = true;
+            Snackbar mySnackbar = Snackbar.make(fab, snackText, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null);
+            mySnackbar.show();
             return true;
         }
 
+        if (id == R.id.menu_sync) {
+            try {
+                ServerConnection.executeUpdate(this, null, fab, null);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -252,7 +276,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
 
-            searchView.setQueryHint("INE, Nom, Prenom ...");
+            searchView.setQueryHint("Numéro, INE, Nom, Prenom ...");
 
             listView.setAdapter(new ListEtudiantAdapter(homeContext, listEtudiants));
 

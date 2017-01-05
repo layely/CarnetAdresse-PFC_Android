@@ -20,8 +20,8 @@ import com.univ_thies.www.carnetdadresseufrset.Adapters.SpinnerFiliereAdapter;
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.FiliereDAO;
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
-import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Filiere;
 import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
 import java.util.List;

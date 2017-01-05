@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
 
 import org.json.JSONObject;
 

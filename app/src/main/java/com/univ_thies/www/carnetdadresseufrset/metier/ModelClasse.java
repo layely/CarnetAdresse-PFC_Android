@@ -1,4 +1,4 @@
-package com.univ_thies.www.carnetdadresseufrset.objects;
+package com.univ_thies.www.carnetdadresseufrset.metier;
 
 /**
  * Created by layely on 12/9/16.

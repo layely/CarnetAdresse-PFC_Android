@@ -1,4 +1,4 @@
-package com.univ_thies.www.carnetdadresseufrset.objects;
+package com.univ_thies.www.carnetdadresseufrset.metier;
 
 import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
@@ -77,6 +77,8 @@ public class Etudiant implements Serializable {
             else if (String.valueOf(etu.getMobile2()).contains(toSearch.toUpperCase()))
                 found.add(etu);
             else if (etu.getEmail().contains(toSearch))
+                found.add(etu);
+            else if (Long.toString(etu.getNumDossier()).contains(toSearch.toUpperCase()))
                 found.add(etu);
         }
 

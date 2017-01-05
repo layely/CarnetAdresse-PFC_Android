@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
-import com.univ_thies.www.carnetdadresseufrset.objects.Filiere;
+import com.univ_thies.www.carnetdadresseufrset.metier.Filiere;
 
 import java.util.List;
 

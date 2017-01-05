@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
 
 /**

@@ -13,7 +13,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
 
 import java.util.ArrayList;
 import java.util.List;

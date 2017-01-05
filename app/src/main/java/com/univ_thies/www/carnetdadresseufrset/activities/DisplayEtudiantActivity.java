@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +12,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
-import com.univ_thies.www.carnetdadresseufrset.objects.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
+import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
 public class DisplayEtudiantActivity extends AppCompatActivity implements DisplayEtudiantFragment.OnFragmentInteractionListener {
 
@@ -43,7 +45,13 @@ public class DisplayEtudiantActivity extends AppCompatActivity implements Displa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchtoEditActivity();
+                if (Utilitaire.modeAdmin)
+                    switchtoEditActivity();
+                else {
+                    Snackbar mySnackbar = Snackbar.make(view, "Mode admin requis pour cette action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null);
+                    mySnackbar.show();
+                }
             }
         });
     }

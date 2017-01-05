@@ -8,6 +8,8 @@ import android.widget.DatePicker;
 
 public class Utilitaire {
 
+    public static boolean modeAdmin = false;
+
     public static String filterString(String arg) {
         if (arg != null && !arg.equalsIgnoreCase("null")) {
             return arg;
