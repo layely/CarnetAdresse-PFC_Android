@@ -96,6 +96,10 @@ public class ServerConnection {
                 .setAction("Action", null);
         snackbar.show();
 
+        if (swipeRefreshLayout != null && !swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
+
         final UtilDAO utilDAO = new UtilDAO(context);
         final DeleteEtudiantInServerTask deleteEtudiantInServerTask = new DeleteEtudiantInServerTask(context);
         final FetchEtudiantTask fetchEtudiantTask = new FetchEtudiantTask(context);
@@ -133,7 +137,9 @@ public class ServerConnection {
                             }
                             if (swipeRefreshLayout != null)
                                 swipeRefreshLayout.setRefreshing(false);
+
                             snackbar.setText("Synchronisation Términé");
+                            snackbar.dismiss();
                         }
                     });
                 } catch (InterruptedException e) {

@@ -343,7 +343,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
             });
-
             OverScrollDecoratorHelper.setUpOverScroll(listView);
 //            RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.recycleview_etudiant);
 //            rv.setHasFixedSize(true);
@@ -357,6 +356,14 @@ public class HomeActivity extends AppCompatActivity {
 
 //            Log.i("tagasync", "about to instanciate");
 //            new FetchEtudiantTask(this.getContext(), listView, fab).execute();
+
+            try {
+                ServerConnection.executeUpdate(PlaceholderFragment.this.getContext(), listView, fab, swipeRefreshLayout);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return rootView;
         }
 
