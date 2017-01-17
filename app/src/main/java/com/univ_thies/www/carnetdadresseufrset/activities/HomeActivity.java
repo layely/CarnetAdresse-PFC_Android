@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -39,7 +39,6 @@ import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
 import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
 import com.univ_thies.www.carnetdadresseufrset.server_sync.ServerConnection;
 import com.univ_thies.www.carnetdadresseufrset.util.Communication;
-import com.univ_thies.www.carnetdadresseufrset.util.Utilitaire;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     public static final String SER_KEY_ETU = "om.univ_thies.www.carnetdadresseufrset.activities.key_etu";
     public static Context homeContext;
     public static FloatingActionButton fab;
+    public static CoordinatorLayout coordinatorLayout;
     private static EtudiantDAO etudiantDAO;
     private static UtilDAO utilDAO;
     /**
@@ -98,22 +98,8 @@ public class HomeActivity extends AppCompatActivity {
 
         ((ViewPager.LayoutParams) pagerTabStrip.getLayoutParams()).isDecor = true;
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Snackbar mySnackbar = Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null);
-                if (Utilitaire.modeAdmin) {
-                    Intent i = new Intent(HomeActivity.this, EditEtudiantActivity.class);
-                    startActivity(i);
-                } else {
-                    Snackbar mySnackbar = Snackbar.make(view, "Mode admin requis pour cette action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null);
-                    mySnackbar.show();
-                }
-            }
-        });
+
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         utilDAO.incrementNumberOfLaunch();
     }
@@ -140,18 +126,6 @@ public class HomeActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_admin) {
-            String snackText = "Mode Admin activé";
-            if (Utilitaire.modeAdmin)
-                snackText = "Mode Admin déja activé";
-            Utilitaire.modeAdmin = true;
-            Snackbar mySnackbar = Snackbar.make(fab, snackText, Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null);
-            mySnackbar.show();
-            return true;
-        }
-
         if (id == R.id.menu_sync) {
             try {
                 ServerConnection.executeUpdate(this, null, fab, null);
@@ -163,6 +137,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * A placeholder fragment containing a simple view.

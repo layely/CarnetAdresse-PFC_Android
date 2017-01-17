@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
+import com.univ_thies.www.carnetdadresseufrset.activities.HomeActivity;
 import com.univ_thies.www.carnetdadresseufrset.database.EtudiantDAO;
 import com.univ_thies.www.carnetdadresseufrset.database.UtilDAO;
 
@@ -92,7 +93,7 @@ public class ServerConnection {
     }
 
     public static void executeUpdate(final Context context, final ListView listView, View fab, final SwipeRefreshLayout swipeRefreshLayout) throws ExecutionException, InterruptedException {
-        final Snackbar snackbar = Snackbar.make(fab, "Synchronisation en cours ...", Snackbar.LENGTH_INDEFINITE)
+        final Snackbar snackbar = Snackbar.make(HomeActivity.coordinatorLayout, "Synchronisation en cours ...", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Action", null);
         snackbar.show();
 

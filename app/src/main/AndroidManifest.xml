@@ -27,10 +27,6 @@
             android:name=".activities.DisplayEtudiantActivity"
             android:label="@string/title_activity_etudiant"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.EditEtudiantActivity"
-            android:label="@string/title_activity_edit_etudiant"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
