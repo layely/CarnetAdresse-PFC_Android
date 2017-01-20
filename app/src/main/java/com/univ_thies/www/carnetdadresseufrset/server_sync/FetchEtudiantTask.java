@@ -78,9 +78,23 @@ public class FetchEtudiantTask extends AsyncTask<Void, String, Void> {
                             String nom = c.getString("nomEtu");
                             String prenom = c.getString("prenomEtu");
                             String dateNaiss = c.getString("dateNaissEtu");
-                            char sexe = c.getString("sexeEtu").charAt(0);
-                            long mobile1 = c.getLong("mobile1Etu");
-                            long mobile2 = c.getLong("mobile2Etu");
+                            char sexe = ' ';
+                            String sexeStr = c.getString("sexeEtu");
+                            if (!sexeStr.isEmpty() && !sexeStr.equalsIgnoreCase("NULL")) {
+                                sexe = sexeStr.charAt(0);
+                            }
+                            long mobile1 = 0;
+                            try {
+                                c.getLong("mobile1Etu");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            long mobile2 = 0;
+                            try {
+                                c.getLong("mobile2Etu");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             String email = c.getString("emailEtu");
                             String adresse = c.getString("adresseEtu");
                             String specialite = c.getString("specialiteEtu");

@@ -1,9 +1,9 @@
 CREATE TABLE Etudiant (
-	numDossierEtu  INT PRIMARY KEY NOT NULL,
+	numDossierEtu   INT,
 	ineEtu 			TEXT,
 	nomEtu 			TEXT NOT NULL,
 	prenomEtu 		TEXT NOT NULL,
-    sexeEtu         CHAR NOT NULL,
+    sexeEtu         CHAR,
     dateNaisEtu     TEXT NOT NULL,
 	mobile1Etu 		INT,
 	mobile2Etu		INT,

@@ -1,7 +1,9 @@
 package com.univ_thies.www.carnetdadresseufrset.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -29,7 +31,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.Adapters.ListEtudiantAdapter;
 import com.univ_thies.www.carnetdadresseufrset.Adapters.MyExpandableListAdapter;
@@ -104,12 +105,12 @@ public class HomeActivity extends AppCompatActivity {
         utilDAO.incrementNumberOfLaunch();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        finish();
-        startActivity(getIntent());
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        finish();
+//        startActivity(getIntent());
+//    }
 
 
     @Override
@@ -165,14 +166,14 @@ public class HomeActivity extends AppCompatActivity {
             return fragment;
         }
 
-        @Override
-        public void onResume() {
-            int numPage = getArguments().getInt(ARG_SECTION_NUMBER);
-            super.onResume();
-            if (numPage == 1) {
-                searchView.onActionViewExpanded();
-            }
-        }
+//        @Override
+//        public void onResume() {
+//            int numPage = getArguments().getInt(ARG_SECTION_NUMBER);
+//            super.onResume();
+//            if (numPage == 1) {
+//                searchView.onActionViewExpanded();
+//            }
+//        }
 
 
         @Override
@@ -180,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
             int numPage = getArguments().getInt(ARG_SECTION_NUMBER);
-            Toast.makeText(getContext(), String.valueOf(numPage), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), String.valueOf(numPage), Toast.LENGTH_SHORT).show();
 
             if (numPage == 1) {
                 //On search page
@@ -376,13 +377,36 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         private void listItemClicked(View view, Etudiant etudiant) {
-            ((CardView) view.findViewById(R.id.card_view)).setCardBackgroundColor(
+            final CardView cardView = (CardView) view.findViewById(R.id.card_view);
+            final ColorStateList colorState = cardView.getCardBackgroundColor();
+            cardView.setCardBackgroundColor(
                     (getResources().getColor(R.color.colorBackgroundTitle)));
             Intent i = new Intent(HomeActivity.homeContext, DisplayEtudiantActivity.class);
 //            Bundle mBundle = new Bundle();
 //            mBundle.putSerializable(HomeActivity.SER_KEY_ETU, etudiant);
             i.putExtra(HomeActivity.SER_KEY_ETU, etudiant);
             startActivity(i);
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    ((Activity) homeContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            cardView.setCardBackgroundColor(colorState);
+                        }
+                    });
+
+                }
+            });
+
+            thread.start();
         }
     }
 

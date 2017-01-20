@@ -36,7 +36,7 @@ public class ServerConnection {
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECTION_TIMEOUT = 5000;
     //    private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
-    private static final String URLstr = "http://172.20.10.2/CarnetAdresseRestful";
+    private static final String URLstr = "http://192.168.1.38/CarnetAdresseRestful";
 
     public static HttpURLConnection getConnection(String phpfile, HashMap<String, String> params) {
         HttpURLConnection conn = null;

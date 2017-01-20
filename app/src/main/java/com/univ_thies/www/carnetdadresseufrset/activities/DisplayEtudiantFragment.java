@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.univ_thies.www.carnetdadresseufrset.R;
 import com.univ_thies.www.carnetdadresseufrset.metier.Etudiant;
@@ -87,7 +86,7 @@ public class DisplayEtudiantFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_display_etudiant, container, false);
         if (getArguments() != null) {
             etudiant = (Etudiant) getArguments().getSerializable(ARG_PARAM1);
-            Toast.makeText(this.getContext(), etudiant.getNom(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(this.getContext(), etudiant.getNom(), Toast.LENGTH_LONG).show();
 //            TextView test = (TextView) rootView.findViewById(R.id.textviewNomPrenomDis);
 //            test.setText("Hello");
             this.rootView = rootView;
